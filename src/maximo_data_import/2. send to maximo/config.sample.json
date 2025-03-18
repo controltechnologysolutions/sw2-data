@@ -1,0 +1,8 @@
+{
+    "base_url": "https://<your_maximo>.softwrench2.com/maximo/oslc/os",
+    "obj_structure": "mxapiwodetail",
+    "obj_search_attr": "wonum",
+    "obj_id_attr_name": "workorderid",
+    "oslc.where": "wonum in [\"{wonum}\"]",
+    "oslc.select": "workorderid"
+}
