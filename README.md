@@ -1,3 +1,3 @@
 # SW2 Data Import 
 
-### This repository means for disponibilize tools in order to import data on Softwrench, both using Maximo and Softwrench APIs.
+### This repository provides a suite of tools designed to import data into Softwrench using both Maximo and Softwrench APIs. These utilities streamline the process of data integration, enabling seamless transfers and synchronization between systems. Whether you’re automating routine imports or managing complex data workflows, this repository offers a flexible and efficient solution.
