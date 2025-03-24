@@ -1,0 +1,16 @@
+[
+  {
+    "Desc": "Test location",
+    "Parent": "1",
+    "location": "TEST_LOC2",
+    "orgid": "RNWBLUS",
+    "siteid": "SITEUS",
+    "status": "Oper",
+    "Parents": [
+      {
+        "ancestor": "TESTLOCPARENT",
+        "sysid": "PRIMARY"
+      }
+    ]
+  }
+]
