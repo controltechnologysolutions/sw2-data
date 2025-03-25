@@ -1,1 +1,0 @@
-[{"assetnum": "SAMPLEASSET01", "parent": "SAMPLEPARENT01", "location": "SAMPLELOCATION01", "description": "Sample Asset Description", "classstructureid": "the id for the created ASSET classfication (1001 in your case) (gets it on database table 'classspec')", "siteid": "SITE", "status": "ACTIVE"}]
