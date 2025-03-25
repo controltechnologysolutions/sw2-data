@@ -43,20 +43,22 @@ python maximo_sender_ui.py
    - Configure Maximo connection
    - Start the import process
 
-## �� Project Structure
+## 📁 Project Structure
 
+```
 sw2-data-import/
 ├── src/
-│ ├── maximo_data_import/
-│ │ ├── 2. send to maximo/
-│ │ │ ├── maximo_sender_ui.py # GUI application
-│ │ │ ├── maximo_sender.py # Core Maximo operations
-│ │ │ ├── csv_to_json.py # CSV conversion utility
-│ │ │ └── README.md # Detailed Maximo importer docs
-│ │ └── ...
-│ └── softwrench_data_import/ # (Coming Soon)
+│   ├── maximo_data_import/
+│   │   ├── 2. send to maximo/
+│   │   │   ├── maximo_sender_ui.py    # GUI application
+│   │   │   ├── maximo_sender.py       # Core Maximo operations
+│   │   │   ├── csv_to_json.py         # CSV conversion utility
+│   │   │   └── README.md              # Detailed Maximo importer docs
+│   │   └── ...
+│   └── softwrench_data_import/        # (Coming Soon)
 ├── requirements.txt
 └── README.md
+```
 
 ## 📝 Documentation
 
