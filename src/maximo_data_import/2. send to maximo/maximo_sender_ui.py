@@ -476,13 +476,12 @@ class MaximoSenderUI:
             
             # Process based on action
             if action == "-bc":
-                print("Starting bulk create process...")  # Debug log
+                print("Starting bulk creation process...")  # Debug log
                 print(config['base_url'])
                 print(config['obj_structure'])
                 process_in_bulk(records_to_process, data_array, 0, f"{config['base_url']}/{config['obj_structure']}?lean=1")
             else:
                 print(f"Starting {action} process...")  # Debug log
-                # Process records one by one
                 all_pairs = []
                 if records_to_process:
                     for i in records_to_process:
