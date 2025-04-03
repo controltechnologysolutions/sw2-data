@@ -1,0 +1,24 @@
+[
+  {
+    "itemnum": "ITEM_ID_HERE",
+    "itemsetid": "ITEMSET",
+    "location": "ITEM_STOREROOM_LOCATION_ID",
+    "siteid": "SITE",
+    "issueunit": "EACH",
+    "status": "ACTIVE",
+    "category": "STOCKED",
+    "binnum": "BIN_IF_ANY_ELSE_EMPTY",
+    "lotnum": "",
+    "curbal": "0.0",
+    "lastcost": "0.00000000",
+    "unitcost": "0.00000000",
+    "physcnt": "0",
+    "consignment": "false",
+    "averagecost": "0.0",
+    "standardcost": "0.0",
+    "conditioncode": "",
+    "lifetimeunits": "0",
+    "lifetimecost": "0.0",
+    "glaccount": ""
+  }
+]
