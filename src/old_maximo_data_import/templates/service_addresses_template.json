@@ -1,0 +1,16 @@
+[
+  {
+    "addresscode": "TEST001",
+    "description": "This is a test service address",
+    "orgid": "SAMPLE_ORG",
+    "streetaddress": "123 Main St",
+    "addressline2": "",
+    "addressline3": "",
+    "city": "Anytown",
+    "stateprovince": "NY",
+    "postalcode": "12345",
+    "country": "US",
+    "latitudey": "40.7128",
+    "longitudex": "-74.0060"
+  }
+]

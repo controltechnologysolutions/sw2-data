@@ -1,0 +1,2 @@
+company,name,type,status,orgid,address1,address2,address3,address4,country,phone,fax,email,currencycode,languagecode,paymentterms,jde_address_number
+VENDOR001,Sample Vendor Company,V,ACTIVE,ORG,"123 Sample Street, Suite 456",Sample City,Sample State,12345,USA,+1-555-123-4567,+1-555-765-4321,contact@samplevendor.com,USD,EN,NET30,0001

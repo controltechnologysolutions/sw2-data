@@ -1,0 +1,2 @@
+description,description_longdescription,reportedpriority,status,customworktype,reportedby,owner,location,actualstart,reportdate,actualfinish,vendor,reportedissue,origination,orgid,siteid
+Any description,Any long description,2,A_VALID_STATUS_SW2_STATUS,Any valid Maximo/SW2 work type,MAX_PERSON_ID_OF_THE_REPORTER,MAX_PERSON_ID_OF_THE_OWNER,THE_LOCATION_ID,,2024-08-22T08:21:00,,ANY_VENDOR,Any value,INTERNAL,ORG,SITE

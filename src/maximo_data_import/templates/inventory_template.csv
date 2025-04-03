@@ -1,0 +1,2 @@
+itemnum,itemsetid,location,siteid,issueunit,status,category,binnum,lotnum,curbal,lastcost,unitcost,physcnt,consignment,averagecost,standardcost,conditioncode,lifetimeunits,lifetimecost,glaccount
+ITEM_ID_HERE,ITEMSET,ITEM_STOREROOM_LOCATION_ID,SITE,EACH,ACTIVE,STOCKED,BIN_IF_ANY_ELSE_EMPTY,,0.0,0.00000000,0.00000000,0,false,0.0,0.0,,0,0.0,
