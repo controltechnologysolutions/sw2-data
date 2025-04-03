@@ -7,6 +7,28 @@ import base64
 from csv_to_json import csv_to_json_threads
 from PIL import Image, ImageTk
 
+class PlaceholderEntry(ttk.Entry):
+    def __init__(self, master=None, placeholder="", color='grey', *args, **kwargs):
+        super().__init__(master, *args, **kwargs)
+        self.placeholder = placeholder
+        self.placeholder_color = color
+        self.default_fg_color = self['foreground']
+        
+        self.bind("<FocusIn>", self._clear_placeholder)
+        self.bind("<FocusOut>", self._add_placeholder)
+        
+        self._add_placeholder()
+    
+    def _clear_placeholder(self, event=None):
+        if self.get() == self.placeholder:
+            self.delete(0, tk.END)
+            self['foreground'] = self.default_fg_color
+    
+    def _add_placeholder(self, event=None):
+        if not self.get():
+            self.insert(0, self.placeholder)
+            self['foreground'] = self.placeholder_color
+
 class MaximoSenderUI:
     def __init__(self, root):
         self.root = root
@@ -118,7 +140,13 @@ class MaximoSenderUI:
         instance_frame.grid(row=0, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=5)
         
         ttk.Label(instance_frame, text="Maximo Instance Name:").grid(row=0, column=0, sticky=tk.W)
-        ttk.Entry(instance_frame, textvariable=self.maximo_instance, width=20).grid(row=0, column=1, sticky=tk.W)
+        self.maximo_instance_entry = PlaceholderEntry(
+            instance_frame,
+            placeholder="your_maximo_subdomain",
+            textvariable=self.maximo_instance,
+            width=20
+        )
+        self.maximo_instance_entry.grid(row=0, column=1, sticky=tk.W)
         ttk.Label(instance_frame, text=".softwrench2.com/maximo/oslc/os").grid(row=0, column=2, sticky=tk.W)
         
         # Object Structure Section
@@ -126,7 +154,12 @@ class MaximoSenderUI:
         structure_frame.grid(row=1, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=5)
         
         ttk.Label(structure_frame, text="Object Structure:").grid(row=0, column=0, sticky=tk.W)
-        ttk.Entry(structure_frame, textvariable=self.obj_structure).grid(row=0, column=1, sticky=tk.W)
+        self.obj_structure_entry = PlaceholderEntry(
+            structure_frame,
+            placeholder="mxapiwodetail",
+            textvariable=self.obj_structure
+        )
+        self.obj_structure_entry.grid(row=0, column=1, sticky=tk.W)
         
         # Maximo Authentication
         auth_frame = ttk.Frame(config_frame)
@@ -147,23 +180,39 @@ class MaximoSenderUI:
         # Search and ID Attributes
         self.search_attr_label = ttk.Label(self.additional_config_frame, text="Search Attribute:")
         self.search_attr_label.grid(row=0, column=0, sticky=tk.W)
-        self.search_attr_entry = ttk.Entry(self.additional_config_frame, textvariable=self.obj_search_attr)
+        self.search_attr_entry = PlaceholderEntry(
+            self.additional_config_frame,
+            placeholder="wonum",
+            textvariable=self.obj_search_attr
+        )
         self.search_attr_entry.grid(row=0, column=1, sticky=tk.W)
         
         self.id_attr_label = ttk.Label(self.additional_config_frame, text="ID Attribute:")
         self.id_attr_label.grid(row=1, column=0, sticky=tk.W)
-        self.id_attr_entry = ttk.Entry(self.additional_config_frame, textvariable=self.obj_id_attr_name)
+        self.id_attr_entry = PlaceholderEntry(
+            self.additional_config_frame,
+            placeholder="workorderid",
+            textvariable=self.obj_id_attr_name
+        )
         self.id_attr_entry.grid(row=1, column=1, sticky=tk.W)
         
         # OSLC Configuration
         self.oslc_where_label = ttk.Label(self.additional_config_frame, text="OSLC Where:")
         self.oslc_where_label.grid(row=2, column=0, sticky=tk.W)
-        self.oslc_where_entry = ttk.Entry(self.additional_config_frame, textvariable=self.oslc_where)
+        self.oslc_where_entry = PlaceholderEntry(
+            self.additional_config_frame,
+            placeholder="wonum in [\"{wonum}\"]",
+            textvariable=self.oslc_where
+        )
         self.oslc_where_entry.grid(row=2, column=1, sticky=tk.W)
         
         self.oslc_select_label = ttk.Label(self.additional_config_frame, text="OSLC Select:")
         self.oslc_select_label.grid(row=3, column=0, sticky=tk.W)
-        self.oslc_select_entry = ttk.Entry(self.additional_config_frame, textvariable=self.oslc_select)
+        self.oslc_select_entry = PlaceholderEntry(
+            self.additional_config_frame,
+            placeholder="workorderid",
+            textvariable=self.oslc_select
+        )
         self.oslc_select_entry.grid(row=3, column=1, sticky=tk.W)
         
         # Progress Section
@@ -392,7 +441,7 @@ class MaximoSenderUI:
 
     def process_data(self, config_path, data_path, action):
         try:
-            print("Starting data processing...")  # Debug log
+            print("Starting data processing...")
             
             # Import here to avoid circular imports
             from maximo_sender import process_one_record, process_in_bulk
@@ -405,7 +454,7 @@ class MaximoSenderUI:
             temp_json_path = None
             if data_path.lower().endswith('.csv'):
                 try:
-                    print(f"Converting CSV file: {data_path}")  # Debug log
+                    print(f"Converting CSV file: {data_path}")
                     # Create a temporary JSON file for the converted data
                     temp_json_path = data_path.rsplit('.', 1)[0] + '_temp.json'
                     
@@ -427,15 +476,15 @@ class MaximoSenderUI:
                     if not os.path.exists(temp_json_path):
                         raise Exception("Timeout waiting for CSV conversion to complete")
                     
-                    print(f"CSV conversion completed. Using: {temp_json_path}")  # Debug log
+                    print(f"CSV conversion completed. Using: {temp_json_path}")
                     # Use the converted JSON file for processing
                     data_path = temp_json_path
                 except Exception as e:
-                    print(f"CSV conversion error: {str(e)}")  # Debug log
+                    print(f"CSV conversion error: {str(e)}")
                     self.root.after(0, lambda: messagebox.showerror("Error", f"Failed to convert CSV file: {str(e)}"))
                     return
             
-            print(f"Loading data from: {data_path}")  # Debug log
+            print(f"Loading data from: {data_path}")
             # Load data
             try:
                 # Ensure the file exists before trying to read it
@@ -444,9 +493,9 @@ class MaximoSenderUI:
                 
                 with open(data_path, "r") as f:
                     data = json.load(f)
-                print(f"Data loaded successfully. Type: {type(data)}")  # Debug log
+                print(f"Data loaded successfully. Type: {type(data)}")
             except Exception as e:
-                print(f"Error loading data: {str(e)}")  # Debug log
+                print(f"Error loading data: {str(e)}")
                 self.root.after(0, lambda: messagebox.showerror("Error", f"Failed to load data file: {str(e)}"))
                 return
             
@@ -457,31 +506,31 @@ class MaximoSenderUI:
                 data_array = data.get("data", [])
                 records_to_process = data.get("records_to_process")
             
-            print(f"Data array length: {len(data_array)}")  # Debug log
+            print(f"Data array length: {len(data_array)}")
             
             # Load config
             try:
                 with open(config_path, "r") as f:
                     config = json.load(f)
-                print("Config loaded successfully")  # Debug log
+                print("Config loaded successfully")
             except Exception as e:
-                print(f"Error loading config: {str(e)}")  # Debug log
+                print(f"Error loading config: {str(e)}")
                 self.root.after(0, lambda: messagebox.showerror("Error", f"Failed to load configuration: {str(e)}"))
                 return
             
             # Set up session
             import requests
             session = requests.Session()
-            timeout_seconds = 30
+            timeout_seconds = 60
             
             # Process based on action
             if action == "-bc":
-                print("Starting bulk creation process...")  # Debug log
+                print("Starting bulk creation process...")
                 print(config['base_url'])
                 print(config['obj_structure'])
                 process_in_bulk(records_to_process, data_array, 0, f"{config['base_url']}/{config['obj_structure']}?lean=1")
             else:
-                print(f"Starting {action} process...")  # Debug log
+                print(f"Starting {action} process...")
                 all_pairs = []
                 if records_to_process:
                     for i in records_to_process:
@@ -521,9 +570,9 @@ class MaximoSenderUI:
                             failed += 1
                         
                         queue_progress_update()
-                        print(f"Processed record {idx + 1}/{total_records}")  # Debug log
+                        print(f"Processed record {idx + 1}/{total_records}")
                     except Exception as e:
-                        print(f"Error processing record {idx}: {str(e)}")  # Debug log
+                        print(f"Error processing record {idx}: {str(e)}")
                         failed += 1
                         processed += 1
                         queue_progress_update()
@@ -545,6 +594,9 @@ class MaximoSenderUI:
                                 f"Success rate: {success_rate:.2f}%"
                             )
                             
+                            if failed > 0:
+                                summary += "\n\nFailed entries have been logged to 'failed_entries.log'"
+                            
                             self.summary_text.delete("1.0", tk.END)
                             self.summary_text.insert("1.0", summary)
                             self.summary_frame.update()
@@ -556,20 +608,20 @@ class MaximoSenderUI:
                 queue_summary_update()
                 
         except Exception as e:
-            print(f"Main process error: {str(e)}")  # Debug log
+            print(f"Main process error: {str(e)}")
             self.root.after(0, lambda: messagebox.showerror("Error", f"Processing failed: {str(e)}"))
         finally:
-            print("Cleaning up temporary files...")  # Debug log
+            print("Cleaning up temporary files...")
             # Clean up temporary files
             try:
-                print(f"Cleaning up files: {config_path}, {temp_json_path}")  # Debug log
+                print(f"Cleaning up files: {config_path}, {temp_json_path}")
                 
                 if os.path.exists(config_path):
                     os.remove(config_path)
                 if temp_json_path and os.path.exists(temp_json_path):
                     os.remove(temp_json_path)
             except Exception as e:
-                print(f"Error cleaning up files: {str(e)}")  # Debug log
+                print(f"Error cleaning up files: {str(e)}")
 
     def clear_all(self):
         self.data_file_path.set("")
@@ -588,6 +640,14 @@ class MaximoSenderUI:
         self.password_entry.delete(0, tk.END)
         self.maxauth_token.set("")
         self.update_search_fields_visibility()
+        
+        # Reset placeholders
+        self.maximo_instance_entry._add_placeholder()
+        self.obj_structure_entry._add_placeholder()
+        self.search_attr_entry._add_placeholder()
+        self.id_attr_entry._add_placeholder()
+        self.oslc_where_entry._add_placeholder()
+        self.oslc_select_entry._add_placeholder()
 
     def generate_token(self):
         """Generate authentication token from username and password."""
