@@ -1,0 +1,20 @@
+[
+  {
+    "description": "Any description",
+    "description_longdescription": "Any long description",
+    "reportedpriority": "2",
+    "status": "A_VALID_STATUS_SW2_STATUS",
+    "customworktype": "Any valid Maximo/SW2 work type",
+    "reportedby": "MAX_PERSON_ID_OF_THE_REPORTER",
+    "owner": "MAX_PERSON_ID_OF_THE_OWNER",
+    "location": "THE_LOCATION_ID",
+    "actualstart": "",
+    "reportdate": "2024-08-22T08:21:00",
+    "actualfinish": "",
+    "vendor": "ANY_VENDOR",
+    "reportedissue": "Any value",
+    "origination": "INTERNAL",
+    "orgid": "ORG",
+    "siteid": "SITE"
+  }
+]

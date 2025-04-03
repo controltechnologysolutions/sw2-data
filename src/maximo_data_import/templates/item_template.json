@@ -1,0 +1,19 @@
+[
+  {
+    "itemnum": "ITEM_ID_HERE",
+    "itemsetid": "ITEMSET",
+    "description": "A description",
+    "itemtype": "ITEM",
+    "status": "ACTIVE",
+    "orderunit": "EACH",
+    "issueunit": "EACH",
+    "siteid": "SITE",
+    "orgid": "ORG",
+    "lottype": "NOLOT",
+    "category": "STOCKED",
+    "rotating": "false",
+    "capitalized": "false",
+    "lotted": "false",
+    "conditionenabled": "false"
+  }
+]

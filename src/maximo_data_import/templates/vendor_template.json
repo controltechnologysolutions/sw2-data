@@ -1,0 +1,21 @@
+[
+  {
+    "company": "VENDOR001",
+    "name": "Sample Vendor Company",
+    "type": "V",
+    "status": "ACTIVE",
+    "orgid": "ORG",
+    "address1": "123 Sample Street, Suite 456",
+    "address2": "Sample City",
+    "address3": "Sample State",
+    "address4": "12345",
+    "country": "USA",
+    "phone": "+1-555-123-4567",
+    "fax": "+1-555-765-4321",
+    "email": "contact@samplevendor.com",
+    "currencycode": "USD",
+    "languagecode": "EN",
+    "paymentterms": "NET30",
+    "jde_address_number": "0001"
+  }
+]

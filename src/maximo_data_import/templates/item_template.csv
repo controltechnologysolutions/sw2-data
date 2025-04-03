@@ -1,0 +1,2 @@
+itemnum,itemsetid,description,itemtype,status,orderunit,issueunit,siteid,orgid,lottype,category,rotating,capitalized,lotted,conditionenabled
+ITEM_ID_HERE,ITEMSET,A description,ITEM,ACTIVE,EACH,EACH,SITE,ORG,NOLOT,STOCKED,false,false,false,false

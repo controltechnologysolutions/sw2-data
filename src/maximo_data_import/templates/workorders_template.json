@@ -1,0 +1,25 @@
+[
+  {
+    "recworktype": "Preventive",
+    "description": "Pump System Inspection",
+    "description_longdescription": "Routine inspection required for the pump system in zone 3 to ensure optimal performance and prevent potential failures.",
+    "priority": "1",
+    "status": "OPEN",
+    "wonum": "987654",
+    "reportedby": "JDOE",
+    "owner": "AMARTINEZ",
+    "location": "123-4567",
+    "vendor": "ABC Solutions Inc.",
+    "tier": "Critical",
+    "origination": "EXTERNAL",
+    "woadditionalresource": [
+      { "personid": "JDOE", "schedstart": "2025-02-15T08:00:00", "schedfinish": "2025-02-15T10:00:00", "sequence": "1" },
+      { "personid": "AMARTINEZ", "schedstart": "2025-02-15T10:15:00", "schedfinish": "2025-02-15T12:15:00", "sequence": "2" }
+    ],
+    "relatedrecord": [{ "relatedreckey": "123456", "relatedrecclass": "SR", "relatedrecsiteid": "SITE" }],
+    "jobtype": "PM",
+    "orgid": "ORG",
+    "siteid": "SITE",
+    "worktype": "CM"
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "assetnum": "SAMPLEASSET01",
+    "parent": "SAMPLEPARENT01",
+    "location": "SAMPLELOCATION01",
+    "description": "Sample Asset Description",
+    "classstructureid": "the id for the created ASSET classfication (1001 in your case) (gets it on database table 'classspec')",
+    "assetspec": [
+      { "assetattrid": "YOUR_CUSTOM_FIELD_01", "alnvalue": "Your Custom Field 01 VALUE (empty if not present)" },
+      { "assetattrid": "YOUR_CUSTOM_FIELD_02", "alnvalue": "Your Custom Field 02 VALUE (empty if not present)" },
+      { "assetattrid": "YOUR_CUSTOM_FIELD_03", "alnvalue": "Your Custom Field 03 VALUE (empty if not present)" },
+      { "assetattrid": "YOUR_CUSTOM_FIELD_04", "numvalue": "Your Custom Field 04 VALUE (empty if not present)" }
+    ],
+    "siteid": "SITE",
+    "status": "ACTIVE"
+  }
+]

@@ -1,0 +1,12 @@
+python3 transform.py \
+    --input-json /path/to/input.json \
+    --from-to-json /path/to/from_to.json \
+    --default-values-json /path/to/default_values.json \
+    --mapping-json /path/to/mapping.json \
+    --output-json /path/to/output.json
+
+    input-json -> the "original/raw" json input data
+    from-to-json -> the field mapping between the original json and the new one (matching the DB field names)
+    default-values-json -> default values to be assumed on every entry
+    mapping-json -> a placeholder mapping file to map value on the original json to another in the output
+    output-json -> the path and name to the output.json file
