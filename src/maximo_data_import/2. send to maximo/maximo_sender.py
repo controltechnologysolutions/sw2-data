@@ -15,7 +15,6 @@ def load_json(path):
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
-
 def parse_response(response):
     """Try to parse as JSON. If 'Error' is present, treat as an error."""
     try:
@@ -26,7 +25,6 @@ def parse_response(response):
     if isinstance(data, dict) and "Error" in data:
         return True, data
     return False, data
-
 
 def build_oslc_query_url(config, record):
     """
@@ -50,7 +48,6 @@ def build_oslc_query_url(config, record):
         f"&oslc.where={oslc_where}"
         f"&oslc.select={oslc_select}"
     )
-
 
 def fetch_object_id(session, record, config, timeout=30):
     """
@@ -80,7 +77,6 @@ def fetch_object_id(session, record, config, timeout=30):
     if isinstance(maybe_id, dict):
         return maybe_id.get("content")
     return maybe_id
-
 
 def process_one_record(index, record, session, config, action, create_url, timeout_seconds):
     """
@@ -342,7 +338,6 @@ def main():
     failure_count = len(results) - success_count
 
     print(f"Done! Processed {len(results)} records => {success_count} success, {failure_count} failure.")
-
 
 if __name__ == "__main__":
     main()

@@ -6,6 +6,7 @@ import threading
 import base64
 from csv_to_json import csv_to_json_threads
 from PIL import Image, ImageTk
+import sys
 
 class PlaceholderEntry(ttk.Entry):
     def __init__(self, master=None, placeholder="", color='grey', *args, **kwargs):
@@ -35,6 +36,32 @@ class MaximoSenderUI:
         self.root.title("Softwrench's Maximo Data Importer")
         self.root.geometry("800x600")
         
+        # Create main container with padding and scrolling
+        self.main_frame = ttk.Frame(self.root)
+        self.main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+        
+        # Create canvas and scrollbar
+        self.canvas = tk.Canvas(self.main_frame)
+        self.scrollbar = ttk.Scrollbar(self.main_frame, orient="vertical", command=self.canvas.yview)
+        self.scrollable_frame = ttk.Frame(self.canvas)
+        
+        # Configure the canvas
+        self.canvas.configure(yscrollcommand=self.scrollbar.set)
+        
+        # Create window in canvas
+        self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw", width=self.canvas.winfo_reqwidth())
+        
+        # Pack the scrollbar and canvas
+        self.scrollbar.pack(side="right", fill="y")
+        self.canvas.pack(side="left", fill="both", expand=True)
+        
+        # Bind canvas resize to update frame width and scroll region
+        self.canvas.bind('<Configure>', self._on_canvas_configure)
+        self.scrollable_frame.bind('<Configure>', self._on_frame_configure)
+        
+        # Bind mouse wheel for scrolling
+        self.canvas.bind_all("<MouseWheel>", self._on_mousewheel)
+        
         # Variables
         self.data_file_path = tk.StringVar()
         self.config_file_path = tk.StringVar()
@@ -51,9 +78,13 @@ class MaximoSenderUI:
         self.current_entry = tk.StringVar(value="0/0")
         self.failed_entries = tk.StringVar(value="Failed: 0")
         
-        # Load logo
+        # Load logo based on system theme
         try:
-            logo_path = os.path.join(os.path.dirname(__file__), "logo.png")
+            # Check if system is in dark mode
+            is_dark_mode = self.is_dark_mode()
+            logo_filename = "white-logo.png" if is_dark_mode else "logo.png"
+            logo_path = os.path.join(os.path.dirname(__file__), logo_filename)
+            
             logo_image = Image.open(logo_path)
             # Calculate new size maintaining aspect ratio
             target_size = 200
@@ -68,9 +99,6 @@ class MaximoSenderUI:
         # Bind request type changes to update UI
         self.request_type.trace_add("write", self.on_request_type_change)
         
-        # Bind mouse wheel for scrolling
-        self.root.bind_all("<MouseWheel>", self._on_mousewheel)
-        
         # Add a queue for UI updates
         self.update_queue = []
         # Start the UI update checker
@@ -80,21 +108,6 @@ class MaximoSenderUI:
         self.update_search_fields_visibility()
         
     def setup_ui(self):
-        # Create main container with padding and scrolling
-        self.canvas = tk.Canvas(self.root)
-        scrollbar = ttk.Scrollbar(self.root, orient="vertical", command=self.canvas.yview)
-        self.scrollable_frame = ttk.Frame(self.canvas)
-        
-        # Configure the canvas
-        self.canvas.configure(yscrollcommand=scrollbar.set)
-        
-        # Create window in canvas
-        self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw", width=self.canvas.winfo_reqwidth())
-        
-        # Pack the scrollbar and canvas
-        scrollbar.pack(side="right", fill="y")
-        self.canvas.pack(side="left", fill="both", expand=True)
-        
         # Create main container with padding
         main_frame = ttk.Frame(self.scrollable_frame, padding="10")
         main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
@@ -102,10 +115,6 @@ class MaximoSenderUI:
         # Configure the scrollable frame to expand
         self.scrollable_frame.grid_rowconfigure(0, weight=1)
         self.scrollable_frame.grid_columnconfigure(0, weight=1)
-        
-        # Bind canvas resize to update frame width and scroll region
-        self.canvas.bind('<Configure>', self._on_canvas_configure)
-        self.scrollable_frame.bind('<Configure>', self._on_frame_configure)
         
         # File Selection Section
         file_frame = ttk.LabelFrame(main_frame, text="File Selection", padding="5")
@@ -265,8 +274,8 @@ class MaximoSenderUI:
             logo_label.pack(side=tk.RIGHT, padx=10)
         
         # Configure grid weights
-        self.root.columnconfigure(0, weight=1)
-        self.root.rowconfigure(0, weight=1)
+        self.main_frame.columnconfigure(0, weight=1)
+        self.main_frame.rowconfigure(0, weight=1)
         main_frame.columnconfigure(1, weight=1)
         
     def browse_data_file(self):
@@ -665,21 +674,53 @@ class MaximoSenderUI:
         return True
 
     def _on_mousewheel(self, event):
-        self.canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        """Handle mouse wheel scrolling"""
+        if sys.platform == 'darwin':  # macOS
+            self.canvas.yview_scroll(int(-1 * event.delta), "units")
+        else:  # Windows and Linux
+            self.canvas.yview_scroll(int(-1 * (event.delta/120)), "units")
 
     def _on_canvas_configure(self, event):
-        # Update the frame width to match the canvas width
+        """Update the frame width to match the canvas width"""
         self.canvas.itemconfig(self.canvas.find_withtag("all")[0], width=event.width)
-        
+        self._update_scrollregion()
+
     def _on_frame_configure(self, event):
-        # Update the scroll region to encompass the inner frame
+        """Update the scroll region to encompass the inner frame"""
+        self._update_scrollregion()
+
+    def _update_scrollregion(self):
+        """Update the scroll region to encompass the inner frame"""
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-        
         # Show/hide scrollbar based on content size
         if self.scrollable_frame.winfo_reqheight() > self.canvas.winfo_height():
-            self.canvas.yview_moveto(0)
+            self.scrollbar.pack(side="right", fill="y")
         else:
-            self.canvas.yview_moveto(0)
+            self.scrollbar.pack_forget()
+
+    def is_dark_mode(self):
+        """Check if the system is in dark mode"""
+        try:
+            import subprocess
+            # For macOS
+            if sys.platform == 'darwin':
+                cmd = 'defaults read -g AppleInterfaceStyle'
+                result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+                return result.returncode == 0  # Returns 0 if dark mode is on
+            # For Windows
+            elif sys.platform == 'win32':
+                import winreg
+                key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r'Software\Microsoft\Windows\CurrentVersion\Themes\Personalize')
+                value = winreg.QueryValueEx(key, 'AppsUseLightTheme')[0]
+                return value == 0  # 0 means dark mode
+            # For Linux (GNOME)
+            elif sys.platform == 'linux':
+                cmd = 'gsettings get org.gnome.desktop.interface gtk-theme'
+                result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+                return 'dark' in result.stdout.lower()
+            return False
+        except Exception:
+            return False  # Default to light mode if detection fails
 
 def main():
     root = tk.Tk()
