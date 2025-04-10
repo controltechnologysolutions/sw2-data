@@ -4,16 +4,18 @@ import json
 import os
 import threading
 import base64
+import requests
 from csv_to_json import csv_to_json_threads
 from PIL import Image, ImageTk
 import sys
 
 class PlaceholderEntry(ttk.Entry):
-    def __init__(self, master=None, placeholder="", color='grey', *args, **kwargs):
+    def __init__(self, master=None, placeholder="", color='grey', on_focus_out=None, *args, **kwargs):
         super().__init__(master, *args, **kwargs)
         self.placeholder = placeholder
         self.placeholder_color = color
         self.default_fg_color = self['foreground']
+        self.on_focus_out = on_focus_out
         
         self.bind("<FocusIn>", self._clear_placeholder)
         self.bind("<FocusOut>", self._add_placeholder)
@@ -29,19 +31,109 @@ class PlaceholderEntry(ttk.Entry):
         if not self.get():
             self.insert(0, self.placeholder)
             self['foreground'] = self.placeholder_color
+        if self.on_focus_out:
+            self.on_focus_out(event)
+
+class FilterableCombobox(ttk.Combobox):
+    def __init__(self, master=None, **kwargs):
+        super().__init__(master, **kwargs)
+        self._original_values = []
+        self._display_map = {}
+        self._after_id = None
+        self._debounce_time = 400  # milliseconds
+        
+        # Configure the combobox
+        self['state'] = 'normal'
+        
+        # Set the height of the dropdown list
+        self['height'] = 10  # Show 10 items at a time
+        
+        # Bind events
+        self.bind('<KeyRelease>', self._on_key_release)
+        self.bind('<<ComboboxSelected>>', self._on_selected)
+        
+        # Prevent keyboard events in the dropdown
+        self.bind('<Up>', lambda e: 'break')
+        self.bind('<Down>', lambda e: 'break')
+        self.bind('<Return>', lambda e: 'break')
+        self.bind('<Escape>', lambda e: 'break')
+        self.bind('<Tab>', lambda e: 'break')
+        
+        # Allow mouse events
+        self.bind('<MouseWheel>', self._on_mousewheel)
+        self.bind('<Button-1>', self._on_click)
+        
+    def _on_key_release(self, event):
+        # Cancel any pending update
+        if self._after_id:
+            self.after_cancel(self._after_id)
+            
+        # Schedule the update
+        self._after_id = self.after(self._debounce_time, self._update_values)
+        
+    def _update_values(self, event=None):
+        current_text = self.get().lower()
+        
+        # Filter values
+        filtered = []
+        for value in self._original_values:
+            if current_text in value.lower():
+                filtered.append(value)
+        
+        # Update values
+        self['values'] = filtered
+        
+        # Show dropdown if there are filtered values
+        if filtered:
+            self.event_generate('<Button-1>')
+            
+        self._after_id = None
+        
+    def _on_selected(self, event):
+        selected = self.get()
+        if selected in self._display_map:
+            self.set(self._display_map[selected])
+        
+    def _on_mousewheel(self, event):
+        # Allow scrolling in the dropdown
+        return
+        
+    def _on_click(self, event):
+        # Allow clicking in the dropdown
+        return
+        
+    def set_values(self, values, display_map):
+        self._original_values = values
+        self._display_map = display_map
+        self['values'] = values
 
 class MaximoSenderUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Softwrench's Maximo Data Importer")
-        self.root.geometry("800x600")
+        
+        # Get screen dimensions
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight()
+        
+        # Calculate position to center the window
+        window_width = 900
+        window_height = 640
+        x = (screen_width - window_width) // 2
+        y = (screen_height - window_height) // 2
+        
+        # Set window geometry and position
+        self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
+        
+        # Remove focus highlight from the main window
+        self.root.configure(highlightthickness=0)
         
         # Create main container with padding and scrolling
         self.main_frame = ttk.Frame(self.root)
         self.main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
         
         # Create canvas and scrollbar
-        self.canvas = tk.Canvas(self.main_frame)
+        self.canvas = tk.Canvas(self.main_frame, highlightthickness=0, bd=0)
         self.scrollbar = ttk.Scrollbar(self.main_frame, orient="vertical", command=self.canvas.yview)
         self.scrollable_frame = ttk.Frame(self.canvas)
         
@@ -78,6 +170,10 @@ class MaximoSenderUI:
         self.current_entry = tk.StringVar(value="0/0")
         self.failed_entries = tk.StringVar(value="Failed: 0")
         
+        # Loading state
+        self.loading_frame = None
+        self.loading_label = None
+        
         # Load logo based on system theme
         try:
             # Check if system is in dark mode
@@ -104,8 +200,14 @@ class MaximoSenderUI:
         # Start the UI update checker
         self.check_updates()
         
+        # Add authentication state variable
+        self.is_authenticated = False
+        
         self.setup_ui()
         self.update_search_fields_visibility()
+        
+        # Initially hide the object structure field
+        self.structure_frame.grid_remove()
         
     def setup_ui(self):
         # Create main container with padding
@@ -144,9 +246,21 @@ class MaximoSenderUI:
         config_frame = ttk.LabelFrame(main_frame, text="Configuration", padding="5")
         config_frame.grid(row=2, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=5)
         
+        # Maximo Authentication
+        auth_frame = ttk.Frame(config_frame)
+        auth_frame.grid(row=0, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=5)
+        
+        ttk.Label(auth_frame, text="Username:").grid(row=0, column=0, sticky=tk.W)
+        self.username_entry = ttk.Entry(auth_frame)
+        self.username_entry.grid(row=0, column=1, sticky=tk.W)
+        
+        ttk.Label(auth_frame, text="Password:").grid(row=0, column=2, sticky=tk.W)
+        self.password_entry = ttk.Entry(auth_frame, show="*")
+        self.password_entry.grid(row=0, column=3, sticky=tk.W)
+        
         # Maximo Instance Section
         instance_frame = ttk.Frame(config_frame)
-        instance_frame.grid(row=0, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=5)
+        instance_frame.grid(row=1, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=5)
         
         ttk.Label(instance_frame, text="Maximo Instance Name:").grid(row=0, column=0, sticky=tk.W)
         self.maximo_instance_entry = PlaceholderEntry(
@@ -158,29 +272,34 @@ class MaximoSenderUI:
         self.maximo_instance_entry.grid(row=0, column=1, sticky=tk.W)
         ttk.Label(instance_frame, text=".softwrench2.com/maximo/oslc/os").grid(row=0, column=2, sticky=tk.W)
         
-        # Object Structure Section
-        structure_frame = ttk.Frame(config_frame)
-        structure_frame.grid(row=1, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=5)
-        
-        ttk.Label(structure_frame, text="Object Structure:").grid(row=0, column=0, sticky=tk.W)
-        self.obj_structure_entry = PlaceholderEntry(
-            structure_frame,
-            placeholder="mxapiwodetail",
-            textvariable=self.obj_structure
+        # Add Authenticate button
+        self.authenticate_button = ttk.Button(
+            instance_frame,
+            text="Authenticate",
+            command=self.authenticate
         )
-        self.obj_structure_entry.grid(row=0, column=1, sticky=tk.W)
+        self.authenticate_button.grid(row=0, column=3, padx=5)
         
-        # Maximo Authentication
-        auth_frame = ttk.Frame(config_frame)
-        auth_frame.grid(row=2, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=5)
+        # Object Structure Section
+        self.structure_frame = ttk.Frame(config_frame)
+        self.structure_frame.grid(row=2, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=5)
         
-        ttk.Label(auth_frame, text="Username:").grid(row=0, column=0, sticky=tk.W)
-        self.username_entry = ttk.Entry(auth_frame)
-        self.username_entry.grid(row=0, column=1, sticky=tk.W)
+        ttk.Label(self.structure_frame, text="Object Structure:").grid(row=0, column=0, sticky=tk.W)
+        self.obj_structure_combobox = FilterableCombobox(
+            self.structure_frame,
+            textvariable=self.obj_structure,
+            width=30,
+            state="normal"
+        )
+        self.obj_structure_combobox.grid(row=0, column=1, sticky=tk.W)
+        self.obj_structure_combobox.bind('<<ComboboxSelected>>', self.on_object_structure_selected)
         
-        ttk.Label(auth_frame, text="Password:").grid(row=0, column=2, sticky=tk.W)
-        self.password_entry = ttk.Entry(auth_frame, show="*")
-        self.password_entry.grid(row=0, column=3, sticky=tk.W)
+        # Store the original object structures
+        self.object_structures = []
+        self.object_structure_display_map = {}  # Maps display text to intobjectname
+        
+        # Initially hide the object structure field
+        self.structure_frame.grid_remove()
         
         # Additional Configuration Section (initially hidden)
         self.additional_config_frame = ttk.LabelFrame(main_frame, text="Additional Configuration", padding="5")
@@ -260,13 +379,26 @@ class MaximoSenderUI:
         self.bottom_frame = ttk.Frame(main_frame)
         self.bottom_frame.grid(row=6, column=0, columnspan=2, pady=10, sticky=(tk.W, tk.E))
         
-        button_frame = ttk.Frame(self.bottom_frame)
-        button_frame.pack(side=tk.LEFT)
+        # Create main container for buttons and warning
+        main_controls = ttk.Frame(self.bottom_frame)
+        main_controls.pack(side=tk.LEFT, anchor=tk.W)
         
-        ttk.Button(button_frame, text="Start Processing", 
-                  command=self.start_processing).pack(side=tk.LEFT, padx=5)
+        # Create buttons container
+        button_frame = ttk.Frame(main_controls)
+        button_frame.pack(fill=tk.X)
+        
+        # Create Start Processing button (initially disabled)
+        self.start_button = ttk.Button(button_frame, text="Start Processing", 
+                  command=self.start_processing, state='disabled')
+        self.start_button.pack(side=tk.LEFT, padx=(0, 5))
+        
         ttk.Button(button_frame, text="Clear", 
                   command=self.clear_all).pack(side=tk.LEFT, padx=5)
+        
+        # Add authentication warning message (in red) below buttons
+        self.auth_warning = ttk.Label(main_controls, text="You need to authenticate first.", 
+                                    foreground='#d43f3f', font=('TkDefaultFont', 7))
+        self.auth_warning.pack(anchor=tk.W)
         
         # Add logo to bottom right
         if self.logo_photo:
@@ -652,11 +784,16 @@ class MaximoSenderUI:
         
         # Reset placeholders
         self.maximo_instance_entry._add_placeholder()
-        self.obj_structure_entry._add_placeholder()
+        self.obj_structure_combobox.delete(0, tk.END)
         self.search_attr_entry._add_placeholder()
         self.id_attr_entry._add_placeholder()
         self.oslc_where_entry._add_placeholder()
         self.oslc_select_entry._add_placeholder()
+        
+        # Reset authentication state
+        self.is_authenticated = False
+        self.start_button.configure(state='disabled')
+        self.auth_warning.pack(side=tk.LEFT, padx=0)
 
     def generate_token(self):
         """Generate authentication token from username and password."""
@@ -721,6 +858,79 @@ class MaximoSenderUI:
             return False
         except Exception:
             return False  # Default to light mode if detection fails
+
+    def authenticate(self):
+        """Handle authentication and fetch object structures"""
+        instance_name = self.maximo_instance.get().strip()
+        if not instance_name or instance_name == "your_maximo_subdomain":
+            messagebox.showerror("Error", "Please enter a valid Maximo instance name")
+            return
+            
+        # Generate token from credentials
+        if not self.generate_token():
+            messagebox.showerror("Error", "Please enter valid username and password")
+            return
+            
+        # Show the object structure field
+        self.structure_frame.grid()
+            
+        try:
+            url = f"https://{instance_name}.softwrench2.com/maximo/oslc/os/MXINTOBJECT?lean=1&oslc.select=intobjectname,description,rel.maxintobjdetail{{objectname,hierarchypath}}&oslc.where=usewith=\"INTEGRATION\""
+            headers = {"maxauth": self.maxauth_token.get()}
+            response = requests.get(url, headers=headers)
+            response.raise_for_status()
+            
+            data = response.json()
+            self.object_structures = []
+            
+            for item in data.get('member', []):
+                self.object_structures.append({
+                    'name': item.get('intobjectname', ''),
+                    'description': item.get('description', '')
+                })
+            
+            # Update the combobox values
+            self.update_object_structure_combobox()
+            
+            # Enable Start Processing button and hide warning
+            self.is_authenticated = True
+            self.start_button.configure(state='normal')
+            self.auth_warning.pack_forget()
+            
+        except requests.exceptions.RequestException as e:
+            messagebox.showerror("Error", f"Failed to fetch object structures: {str(e)}")
+            self.structure_frame.grid_remove()
+            self.is_authenticated = False
+        except json.JSONDecodeError as e:
+            messagebox.showerror("Error", f"Invalid response from server: {str(e)}")
+            self.structure_frame.grid_remove()
+            self.is_authenticated = False
+        except Exception as e:
+            messagebox.showerror("Error", f"An unexpected error occurred: {str(e)}")
+            self.structure_frame.grid_remove()
+            self.is_authenticated = False
+    
+    def update_object_structure_combobox(self):
+        """Update the combobox with all available object structures"""
+        self.object_structure_display_map.clear()
+        values = []
+        for item in self.object_structures:
+            display_text = f"{item['name']} - {item['description']}"
+            values.append(display_text)
+            self.object_structure_display_map[display_text] = item['name']
+        self.obj_structure_combobox.set_values(values, self.object_structure_display_map)
+    
+    def filter_object_structures(self, event=None):
+        """Filter the object structures based on user input"""
+        # This method is no longer needed as filtering is handled by the custom combobox
+        pass
+    
+    def on_object_structure_selected(self, event=None):
+        """Handle selection from the combobox dropdown"""
+        selected_display = self.obj_structure.get()
+        if selected_display in self.object_structure_display_map:
+            # Store only the intobjectname
+            self.obj_structure.set(self.object_structure_display_map[selected_display])
 
 def main():
     root = tk.Tk()
