@@ -920,11 +920,6 @@ class MaximoSenderUI:
             self.object_structure_display_map[display_text] = item['name']
         self.obj_structure_combobox.set_values(values, self.object_structure_display_map)
     
-    def filter_object_structures(self, event=None):
-        """Filter the object structures based on user input"""
-        # This method is no longer needed as filtering is handled by the custom combobox
-        pass
-    
     def on_object_structure_selected(self, event=None):
         """Handle selection from the combobox dropdown"""
         selected_display = self.obj_structure.get()
