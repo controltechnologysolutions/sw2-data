@@ -1,0 +1,120 @@
+{
+	"info": {
+		"_postman_id": "53ba1d6f-c1a0-48ec-9a2e-e0327cd09454",
+		"name": "[Softwrench] Google Maps API",
+		"description": "A collection to calculate distance and estimated travel time between two zip codes using Google Maps Distance Matrix API.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11867613"
+	},
+	"item": [
+		{
+			"name": "ZIP Code Distance Between (Matrix)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://maps.googleapis.com/maps/api/distancematrix/json?origins={{origin_zip_code}}&destinations={{destination_zip_code}}&key={{api_key}}",
+					"protocol": "https",
+					"host": [
+						"maps",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"maps",
+						"api",
+						"distancematrix",
+						"json"
+					],
+					"query": [
+						{
+							"key": "origins",
+							"value": "{{origin_zip_code}}"
+						},
+						{
+							"key": "destinations",
+							"value": "{{destination_zip_code}}"
+						},
+						{
+							"key": "key",
+							"value": "{{api_key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search address info",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://maps.googleapis.com/maps/api/geocode/json?address=2530+Arnold+Drive,MARTINEZ,CA,94553&key={{api_key}}",
+					"protocol": "https",
+					"host": [
+						"maps",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"maps",
+						"api",
+						"geocode",
+						"json"
+					],
+					"query": [
+						{
+							"key": "address",
+							"value": "2530+Arnold+Drive,MARTINEZ,CA,94553"
+						},
+						{
+							"key": "key",
+							"value": "{{api_key}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api_key",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "origin_zip_code",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "destination_zip_code",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

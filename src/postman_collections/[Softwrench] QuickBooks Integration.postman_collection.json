@@ -1,0 +1,451 @@
+{
+	"info": {
+		"_postman_id": "19e806e1-6282-41db-bcb0-8bdc9c724430",
+		"name": "[Softwrench] QuickBooks Integration",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11867613"
+	},
+	"item": [
+		{
+			"name": "1. OAuth2 Authorization Flow",
+			"item": [
+				{
+					"name": "1.1 Get Authorization Code",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"console.log(pm.response.text())"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://appcenter.intuit.com/connect/oauth2?client_id={{client_id}}&response_type=code&scope=com.intuit.quickbooks.accounting com.intuit.quickbooks.payment&redirect_uri={{redirect_uri}}&state={{state}}",
+							"protocol": "https",
+							"host": [
+								"appcenter",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"connect",
+								"oauth2"
+							],
+							"query": [
+								{
+									"key": "client_id",
+									"value": "{{client_id}}"
+								},
+								{
+									"key": "response_type",
+									"value": "code"
+								},
+								{
+									"key": "scope",
+									"value": "com.intuit.quickbooks.accounting com.intuit.quickbooks.payment"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{redirect_uri}}"
+								},
+								{
+									"key": "state",
+									"value": "{{state}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.2 Exchange Code for Tokens",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{client_id}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{client_secret}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code"
+								},
+								{
+									"key": "code",
+									"value": "{{authorization_code}}"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{redirect_uri}}"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer",
+							"protocol": "https",
+							"host": [
+								"oauth",
+								"platform",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"oauth2",
+								"v1",
+								"tokens",
+								"bearer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1.3 Refresh Token",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{client_id}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{client_secret}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "refresh_token"
+								},
+								{
+									"key": "refresh_token",
+									"value": "{{refresh_token}}"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer",
+							"protocol": "https",
+							"host": [
+								"oauth",
+								"platform",
+								"intuit",
+								"com"
+							],
+							"path": [
+								"oauth2",
+								"v1",
+								"tokens",
+								"bearer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Fetch Invoices",
+			"item": [
+				{
+					"name": "2.1. Get All Invoices",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{sandbox_base_url}}/v3/company/{{realm_id}}/query?query=select * from Invoice where DocNumber = '1037'&minorversion=73",
+							"host": [
+								"{{sandbox_base_url}}"
+							],
+							"path": [
+								"v3",
+								"company",
+								"{{realm_id}}",
+								"query"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "select * from Invoice where DocNumber = '1037'"
+								},
+								{
+									"key": "minorversion",
+									"value": "73"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. Create Invoice",
+			"item": [
+				{
+					"name": "2.2. Create New Invoice",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Line\": [\n        {\n            \"Description\": \"Test item through integration request\",\n            \"DetailType\": \"SalesItemLineDetail\",\n            \"Amount\": 250.00,\n            \"SalesItemLineDetail\": {\n                \"ItemRef\": {\n                    \"value\": \"1\"\n                },\n                \"Qty\": 2\n            }\n        }\n    ],\n    \"CustomerRef\": {\n        \"value\": \"1\"\n    },\n    \"DueDate\": \"2024-01-27\"\n}"
+						},
+						"url": {
+							"raw": "{{sandbox_base_url}}/v3/company/{{realm_id}}/invoice",
+							"host": [
+								"{{sandbox_base_url}}"
+							],
+							"path": [
+								"v3",
+								"company",
+								"{{realm_id}}",
+								"invoice"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "[0] OIDC Discovery",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://developer.api.intuit.com/.well-known/openid_configuration",
+					"protocol": "https",
+					"host": [
+						"developer",
+						"api",
+						"intuit",
+						"com"
+					],
+					"path": [
+						".well-known",
+						"openid_configuration"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "grant_type",
+				"value": "authorization_code",
+				"type": "string"
+			},
+			{
+				"key": "tokenName",
+				"value": "Integration Hub",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "{{client_secret}}",
+				"type": "string"
+			},
+			{
+				"key": "useBrowser",
+				"value": true,
+				"type": "boolean"
+			},
+			{
+				"key": "client_authentication",
+				"value": "body",
+				"type": "string"
+			},
+			{
+				"key": "scope",
+				"value": "{{scope}}",
+				"type": "string"
+			},
+			{
+				"key": "state",
+				"value": "security_token",
+				"type": "string"
+			},
+			{
+				"key": "refreshRequestParams",
+				"value": [],
+				"type": "any"
+			},
+			{
+				"key": "tokenRequestParams",
+				"value": [],
+				"type": "any"
+			},
+			{
+				"key": "authRequestParams",
+				"value": [],
+				"type": "any"
+			},
+			{
+				"key": "challengeAlgorithm",
+				"value": "S256",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "{{client_id}}",
+				"type": "string"
+			},
+			{
+				"key": "authUrl",
+				"value": "https://appcenter.intuit.com/connect/oauth2",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "client_id",
+			"value": "your_client_id_here"
+		},
+		{
+			"key": "client_secret",
+			"value": "your_client_secret_here"
+		},
+		{
+			"key": "redirect_uri",
+			"value": "https://developer.intuit.com/v2/OAuth2Playground/RedirectUrl"
+		},
+		{
+			"key": "state",
+			"value": "security_token"
+		},
+		{
+			"key": "realm_id",
+			"value": "your_realm_id_here"
+		},
+		{
+			"key": "scope",
+			"value": "com.intuit.quickbooks.accounting com.intuit.quickbooks.payment",
+			"type": "string"
+		},
+		{
+			"key": "sandbox_base_url",
+			"value": "https://sandbox-quickbooks.api.intuit.com",
+			"type": "string"
+		},
+		{
+			"key": "production_base_url",
+			"value": "https://quickbooks.api.intuit.com",
+			"type": "string"
+		}
+	]
+}
