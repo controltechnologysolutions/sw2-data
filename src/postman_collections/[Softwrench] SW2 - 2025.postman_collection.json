@@ -543,7 +543,7 @@
 								"header": [
 									{
 										"key": "x-api-key",
-										"value": "5871b47d-28c5-45cb-b5bf-bba191d984c2",
+										"value": "your_api_key_here",
 										"type": "text"
 									}
 								],
@@ -573,7 +573,7 @@
 								"header": [
 									{
 										"key": "x-api-key",
-										"value": "5871b47d-28c5-45cb-b5bf-bba191d984c2",
+										"value": "your_api_key_here",
 										"type": "text"
 									}
 								],
@@ -607,7 +607,7 @@
 								"header": [
 									{
 										"key": "x-api-key",
-										"value": "5871b47d-28c5-45cb-b5bf-bba191d984c2",
+										"value": "your_api_key_here",
 										"type": "text"
 									}
 								],
@@ -651,7 +651,7 @@
 								"header": [
 									{
 										"key": "x-api-key",
-										"value": "5871b47d-28c5-45cb-b5bf-bba191d984c2",
+										"value": "your_api_key_here",
 										"type": "text"
 									}
 								],
@@ -948,7 +948,7 @@
 									"apikey": [
 										{
 											"key": "value",
-											"value": "cleu2YtS4nyE7NIPljBmQNlkmvRw07DrNFWEywnAckTO2Z6PcACxH0FI20DXA9sMjAdwPGrDC1ARzwj2P62o7dqLAJtT4LE5nYxh8gXlVTR7jI3dPmKhdkMdjYYhRxV0",
+											"value": "your_api_key_here",
 											"type": "string"
 										},
 										{
@@ -962,7 +962,7 @@
 								"header": [
 									{
 										"key": "X-Api-Key",
-										"value": "cleu2YtS4nyE7NIPljBmQNlkmvRw07DrNFWEywnAckTO2Z6PcACxH0FI20DXA9sMjAdwPGrDC1ARzwj2P62o7dqLAJtT4LE5nYxh8gXlVTR7jI3dPmKhdkMdjYYhRxV0",
+										"value": "your_api_key_here",
 										"type": "text"
 									}
 								],
@@ -988,7 +988,7 @@
 									"apikey": [
 										{
 											"key": "value",
-											"value": "cleu2YtS4nyE7NIPljBmQNlkmvRw07DrNFWEywnAckTO2Z6PcACxH0FI20DXA9sMjAdwPGrDC1ARzwj2P62o7dqLAJtT4LE5nYxh8gXlVTR7jI3dPmKhdkMdjYYhRxV0",
+											"value": "your_api_key_here",
 											"type": "string"
 										},
 										{
@@ -1002,7 +1002,7 @@
 								"header": [
 									{
 										"key": "X-Api-Key",
-										"value": "cleu2YtS4nyE7NIPljBmQNlkmvRw07DrNFWEywnAckTO2Z6PcACxH0FI20DXA9sMjAdwPGrDC1ARzwj2P62o7dqLAJtT4LE5nYxh8gXlVTR7jI3dPmKhdkMdjYYhRxV0",
+										"value": "your_api_key_here",
 										"type": "text"
 									}
 								],
@@ -1053,7 +1053,7 @@
 						"header": [
 							{
 								"key": "x-api-key",
-								"value": "PHLKdSVbex1Ql9yFjoEqZUIVGGihG7cNSa99rJ4xqd4HyAbsja",
+								"value": "your_api_key_here",
 								"type": "text"
 							}
 						],
