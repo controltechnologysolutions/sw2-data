@@ -1,0 +1,2014 @@
+{
+	"info": {
+		"_postman_id": "189417e8-de17-4b59-a0fd-4ffdcc5b3931",
+		"name": "[Softwrench] IBM Maximo REST API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11867613"
+	},
+	"item": [
+		{
+			"name": "MX Purchase Order",
+			"item": [
+				{
+					"name": "New PO Revision",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ponum\": \"1158\",\n    \"siteid\": \"SITE\",\n    \"vendor\": \"A R SOLAR\",\n    \"externalrefid\": \"SW2 API\",\n    \"revisionnum\": \"14\",\n    \"revcomments\": \"Test Maximo\",\n    \"description\": \"Testing\",\n    \"allowreceipt\": false,\n    \"potype\": \"STD\",\n    \"poline\": [\n        {\n            \"polinenum\": 1,\n            \"refwo\": \"10029942\",\n            \"itemnum\": \"1013\",\n            \"description\": \"Solectria Inverter PVI-60TL-480\",\n            \"orderqty\": 5.0,\n            \"unitcost\": 100.0,\n            \"linetype\": \"ITEM\",\n            \"invoicestatus\": \"RECEIVED\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/mxpo?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"mxpo"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Receive PO Line",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"qtytoreceive\": 1,\n    \"receiptquantity\": 1,\n    \"positeid\": \"SITE\",\n    \"enterby\": \"MAXADMIN\",\n    \"ponum\": \"1174\",\n    \"externalrefid\": \"SW2 API\",\n    \"siteid\": \"SITE\",\n    \"polinenum\": 1,\n    \"serviceitemtype\": \"OTHER\",\n    \"sourcesysid\": \"SW2 API\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/swreceipt?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"swreceipt"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change PO Status",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							},
+							{
+								"key": "x-method-override",
+								"value": "PATCH",
+								"type": "text"
+							},
+							{
+								"key": "patchtype",
+								"value": "MERGE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"NEW\",\n    \"np_statusmemo\": \"Changing status\",\n    \"postatus_changeby\": \"EPACHECO\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/mxpo/:poId?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"mxpo",
+								":poId"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							],
+							"variable": [
+								{
+									"key": "poId",
+									"value": "<<po_id_here>>"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create PO",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"A PO through REST API\",\n    \"vendor\": \"A R SOLAR\",\n    \"siteid\": \"SITE\",\n    \"status\": \"NEW\",\n    \"requestor\": \"EPACHECO\",\n    \"purchaseagent\": \"KHUMPHREY\",\n    \"orderdate\": \"2024-01-01T00:00:00-05:00\",\n    \"requireddate\": \"2024-01-15T00:00:00-05:00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/mxpo?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"mxpo"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MX API WO Detail",
+			"item": [
+				{
+					"name": "1. Query work order",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_maximo_url}}/os/mxapiwodetailcustom?lean=1&oslc.where=location in [\"393\"] and status in [\"INPRG\",\"RTBSCH\",\"SCHED\"] and assetnum=\"*\"&oslc.select=*",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"mxapiwodetailcustom"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								},
+								{
+									"key": "oslc.where",
+									"value": "location in [\"393\"] and status in [\"INPRG\",\"RTBSCH\",\"SCHED\"] and assetnum=\"*\""
+								},
+								{
+									"key": "oslc.select",
+									"value": "*"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Create work order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							},
+							{
+								"key": "x-method-override",
+								"value": "PATCH",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "patchtype",
+								"value": "MERGE",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"recworktype\": \"Preventive\",\n    \"description\": \"Pump System Inspection\",\n    \"description_longdescription\": \"Routine inspection required for the pump system in zone 3 to ensure optimal performance and prevent potential failures.\",\n    \"priority\": 1,\n    \"status\": \"OPEN\",\n    \"wonum\": \"987654\",\n    \"sfid\": \"SF1234567890\",\n    \"reportedby\": \"JDOE\",\n    \"owner\": \"AMARTINEZ\",\n    \"location\": \"123-4567\",\n    \"vendor\": \"ABC Solutions Inc.\",\n    \"tier\": \"Critical\",\n    \"origination\": \"EXTERNAL\",\n    \"woadditionalresource\": [\n        {\n            \"sfid\": \"08pUn000001ABC1\",\n            \"personid\": \"JDOE\",\n            \"schedstart\": \"2025-02-15T08:00:00\",\n            \"schedfinish\": \"2025-02-15T10:00:00\",\n            \"sequence\": 1\n        },\n        {\n            \"sfid\": \"08pUn000001ABC2\",\n            \"personid\": \"AMARTINEZ\",\n            \"schedstart\": \"2025-02-15T10:15:00\",\n            \"schedfinish\": \"2025-02-15T12:15:00\",\n            \"sequence\": 2\n        }\n    ],\n    \"relatedrecord\": [\n        {\n            \"relatedreckey\": 123456,\n            \"relatedrecclass\": \"SR\",\n            \"relatedrecsiteid\": \"SITE\"\n        }\n    ],\n    \"jobtype\": \"PM\",\n    \"orgid\": \"ORG\",\n    \"siteid\": \"SITE\",\n    \"worktype\": \"CM\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/customwodetail?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"customwodetail"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MX API SR",
+			"item": [
+				{
+					"name": "1. Query service request",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_maximo_url}}/os/mxapiwodetail?lean=1&oslc.where=wonum in [\"TK647\"]&oslc.select=workorderid,matusetrans",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"mxapiwodetail"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								},
+								{
+									"key": "oslc.where",
+									"value": "wonum in [\"TK647\"]"
+								},
+								{
+									"key": "oslc.select",
+									"value": "workorderid,matusetrans"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Create SR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							},
+							{
+								"key": "x-method-override",
+								"value": "PATCH",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "patchtype",
+								"value": "MERGE",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Any description\",\n    \"description_longdescription\": \"Any long description\",\n    \"reportedpriority\": 2,\n    \"status\": \"A_VALID_STATUS\",\n    \"customworktype\": \"Any valid work type\",\n    \"reportedby\": \"MAX_PERSON_ID_OF_THE_REPORTER\",\n    \"owner\": \"MAX_PERSON_ID_OF_THE_OWNER\",\n    \"location\": \"THE_LOCATION_ID\",\n    \"actualstart\": \"\",\n    \"reportdate\": \"2024-08-22T08:21:00\",\n    \"actualfinish\": \"\",\n    \"vendor\": \"ANY_VENDOR\",\n    \"casecause\": \"\",\n    \"reportedissue\": \"Any value\",\n    \"origination\": \"INTERNAL\",\n    \"orgid\": \"ORG\",\n    \"siteid\": \"SITE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/mxsr?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"mxsr"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Bulk Update SR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							},
+							{
+								"key": "x-method-override",
+								"value": "PATCH",
+								"type": "text"
+							},
+							{
+								"key": "patchtype",
+								"value": "MERGE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"COMPLETED\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/mxsr/:id?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"mxsr",
+								":id"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MX API Labtrans",
+			"item": [
+				{
+					"name": "0. Delete labtrans",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							},
+							{
+								"key": "x-method-override",
+								"value": "DELETE",
+								"type": "text"
+							},
+							{
+								"key": "patchtype",
+								"value": "MERGE",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/swlabtrans/:labtransid",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"swlabtrans",
+								":labtransid"
+							],
+							"variable": [
+								{
+									"key": "labtransid",
+									"value": "3103"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1. Create labtrans in work order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							},
+							{
+								"key": "x-method-override",
+								"value": "PATCH",
+								"type": "text"
+							},
+							{
+								"key": "patchtype",
+								"value": "MERGE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"labtrans\": [\n        {\n            \"laborcode\": \"LABOR_ID\",\n            \"regularhrs\": 2\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/customwodetail/:workorderid?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"customwodetail",
+								":workorderid"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							],
+							"variable": [
+								{
+									"key": "workorderid",
+									"value": "83606"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Create labtrans",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							},
+							{
+								"key": "x-method-override",
+								"value": "PATCH",
+								"type": "text"
+							},
+							{
+								"key": "patchtype",
+								"value": "MERGE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"externalstatus\": \"SENT\",\n    \"externallastsuccessfulsync\": \"2025-07-21T10:21:00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/swlabtrans/:id?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"swlabtrans",
+								":id"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "4032"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MX API Locations",
+			"item": [
+				{
+					"name": "0. Bulk insert locations",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							},
+							{
+								"key": "x-method-override",
+								"value": "BULK",
+								"type": "text"
+							},
+							{
+								"key": "patchtype",
+								"value": "MERGE",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"_data\": {\n            \"hasparent\": \"1\",\n            \"location\": \"YOUR_LOCATION_ID\",\n            \"description\": \"Any location description\",\n            \"classstructureid\": \"Class structure id here if you will have locationspec\",\n            \"siteid\": \"SITE\",\n            \"type\": \"OPERATING\",\n            \"lochierarchy\": [\n                {\n                    \"parent\": \"PARENT OF THIS LOCATION, SHOULD BE SITE IF NONE\",\n                    \"systemid\": \"PRIMARY\"\n                }\n            ],\n            \"locationspec\": [\n                {\n                    \"assetattrid\": \"YOUR_CUSTOM_ATTRIBUTE_NAME_HERE\",\n                    \"alnvalue\": \"Any value you need here\"\n                },\n                {\n                    \"assetattrid\": \"ANOTHER_CUSTOM_ATTRIBUTE\",\n                    \"alnvalue\": \"Another value\"\n                }\n            ]\n        }\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/mxcustomlocations?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"mxcustomlocations"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1. Create location",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							},
+							{
+								"key": "x-method-override",
+								"value": "PATCH",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "patchtype",
+								"value": "MERGE",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"hasparent\": \"1\",\n    \"location\": \"YOUR_LOCATION_ID\",\n    \"description\": \"Any description\",\n    \"orgid\": \"ORG\",\n    \"siteid\": \"SITE\",\n    \"type\": \"OPERATING\",\n    \"lochierarchy\": [\n        {\n            \"parent\": \"PARENT OF THIS LOCATION, SHOULD BE SITE IF NONE\",\n            \"systemid\": \"PRIMARY\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/mxcustomlocations?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"mxcustomlocations"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MX API Companies",
+			"item": [
+				{
+					"name": "Updating a company",
+					"item": [
+						{
+							"name": "1. Getting the company info",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "maxauth",
+										"value": "{{maxauth}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_maximo_url}}/os/mxapicompanies?lean=1&oslc.where=company=\"CUSTOMER003\"&oslc.select=type,companiesid,company,href",
+									"host": [
+										"{{base_maximo_url}}"
+									],
+									"path": [
+										"os",
+										"mxapicompanies"
+									],
+									"query": [
+										{
+											"key": "lean",
+											"value": "1"
+										},
+										{
+											"key": "oslc.where",
+											"value": "company=\"CUSTOMER003\""
+										},
+										{
+											"key": "oslc.select",
+											"value": "type,companiesid,company,href"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Updating that company with its ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "maxauth",
+										"value": "{{maxauth}}",
+										"type": "text"
+									},
+									{
+										"key": "x-method-override",
+										"value": "PATCH",
+										"type": "text"
+									},
+									{
+										"key": "patch-type",
+										"value": "MERGE",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Another Vendor Company Name\",\n    \"email\": \"contact@changedcontact.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_maximo_url}}/os/mxapicompanies/:companyId?lean=1",
+									"host": [
+										"{{base_maximo_url}}"
+									],
+									"path": [
+										"os",
+										"mxapicompanies",
+										":companyId"
+									],
+									"query": [
+										{
+											"key": "lean",
+											"value": "1"
+										}
+									],
+									"variable": [
+										{
+											"key": "companyId",
+											"value": "7240"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create company",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"company\": \"TEST_VENDOR_COMPANY\",\n    \"name\": \"Sample Vendor Company\",\n    \"type\": \"V\",\n    \"status\": \"ACTIVE\",\n    \"orgid\": \"ORG\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/swcompanies?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"swcompanies"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Creating a vendor",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "maxauth",
+										"value": "{{maxauth}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"company\": \"VENDOR002\",\n    \"name\": \"Sample Vendor Company\",\n    \"type\": \"V\", // Type for vendor\n    \"status\": \"ACTIVE\",\n    \"orgid\": \"RECORG\",\n    \"address1\": \"123 Sample Street, Suite 456\",\n    \"address2\": \"Sample City\",\n    \"address3\": \"Sample State\",\n    \"address4\": \"12345\",\n    \"country\": \"USA\",\n    \"phone\": \"+1-555-123-4567\",\n    \"fax\": \"+1-555-765-4321\",\n    \"email\": \"contact@samplevendor.com\",\n    \"currencycode\": \"USD\",\n    \"languagecode\": \"EN\",\n    \"paymentterms\": \"NET30\",\n    \"jde_address_number\": \"0001\",\n    \"acumaticasuppliernum\": \"0001\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://recmaximoqa.softwrench2.com/maximo/oslc/os/mxapicompanies?lean=1",
+									"protocol": "http",
+									"host": [
+										"recmaximoqa",
+										"softwrench2",
+										"com"
+									],
+									"path": [
+										"maximo",
+										"oslc",
+										"os",
+										"mxapicompanies"
+									],
+									"query": [
+										{
+											"key": "lean",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "Creating a company",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "maxauth",
+										"value": "{{maxauth}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"company\": \"CUSTOMER001\",\n    \"name\": \"Sample Vendor Company\",\n    \"type\": \"X\", // Type for customer\n    \"status\": \"ACTIVE\",\n    \"orgid\": \"RECORG\",\n    \"address1\": \"123 Sample Street, Suite 456\",\n    \"address2\": \"Sample City\",\n    \"address3\": \"Sample State\",\n    \"address4\": \"12345\",\n    \"country\": \"USA\",\n    \"phone\": \"+1-555-123-4567\",\n    \"fax\": \"+1-555-765-4321\",\n    \"email\": \"contact@samplevendor.com\",\n    \"currencycode\": \"USD\",\n    \"languagecode\": \"EN\",\n    \"paymentterms\": \"NET30\",\n    \"jde_address_number\": \"0001\",\n    \"acumaticasuppliernum\": \"0001\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://recmaximoqa.softwrench2.com/maximo/oslc/os/mxapicompanies?lean=1",
+									"protocol": "http",
+									"host": [
+										"recmaximoqa",
+										"softwrench2",
+										"com"
+									],
+									"path": [
+										"maximo",
+										"oslc",
+										"os",
+										"mxapicompanies"
+									],
+									"query": [
+										{
+											"key": "lean",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Servlet/3.1"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "https://com.ibm.iot.maximo.mobile"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,POST,PUT,DELETE"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "maxauth,x-method-override,patchtype,content-type,accept,x-public-uri"
+								},
+								{
+									"key": "Access-Control-Expose-Headers",
+									"value": "csrftoken"
+								},
+								{
+									"key": "Location",
+									"value": "https://recmaximoqa.softwrench2.com/maximo/oslc/os/mxapicompanies/_Q1VTVE9NRVIwMDEvUkVDT1JH"
+								},
+								{
+									"key": "Content-Language",
+									"value": "en-US"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 15 Oct 2024 17:25:49 GMT"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Query customers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_maximo_url}}/os/mxapicompanies?lean=1&oslc.where=type=\"X\"&oslc.select=company=COMPANY_ID",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"mxapicompanies"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								},
+								{
+									"key": "oslc.where",
+									"value": "type=\"X\""
+								},
+								{
+									"key": "oslc.select",
+									"value": "company=COMPANY_ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query vendors",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_maximo_url}}/os/mxapicompanies?lean=1&oslc.where=type!=\"[X,!]\"&oslc.select=*",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"mxapicompanies"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								},
+								{
+									"key": "oslc.where",
+									"value": "type!=\"[X,!]\""
+								},
+								{
+									"key": "oslc.select",
+									"value": "*"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MX Inventory",
+			"item": [
+				{
+					"name": "0. Bulk create items",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							},
+							{
+								"key": "x-method-override",
+								"value": "BULK",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"_data\": {\n            \"itemnum\": \"ITEM_ID_HERE\",\n            \"itemsetid\": \"ITEMSET\",\n            \"description\": \"A description\",\n            \"itemtype\": \"ITEM\",\n            \"status\": \"ACTIVE\",\n            \"orderunit\": \"EACH\",\n            \"issueunit\": \"EACH\",\n            \"siteid\": \"SITE\",\n            \"orgid\": \"ORG\",\n            \"lottype\": \"NOLOT\",\n            \"category\": \"STOCKED\",\n            \"rotating\": false,\n            \"capitalized\": false,\n            \"lotted\": false,\n            \"conditionenabled\": false\n        }\n    },\n    {\n        \"_data\": {\n            \"itemnum\": \"ANOTHER_ITEM\",\n            \"itemsetid\": \"ITEMSET\",\n            \"description\": \"Random description\",\n            \"itemtype\": \"ITEM\",\n            \"status\": \"ACTIVE\",\n            \"orderunit\": \"EACH\",\n            \"issueunit\": \"EACH\",\n            \"siteid\": \"SITE\",\n            \"orgid\": \"ORG\",\n            \"lottype\": \"NOLOT\",\n            \"category\": \"STOCKED\",\n            \"rotating\": false,\n            \"capitalized\": false,\n            \"lotted\": false,\n            \"conditionenabled\": false\n        }\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/mxapiitem?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"mxapiitem"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1. Bulk create inventory for the items",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							},
+							{
+								"key": "x-method-override",
+								"value": "BULK",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"_data\": {\n            \"itemnum\": \"ITEM_ID_HERE\",\n            \"itemsetid\": \"ITEMSET\",\n            \"location\": \"ITEM_STOREROOM_LOCATION_ID\",\n            \"siteid\": \"SITE\",\n            \"issueunit\": \"EACH\",\n            \"status\": \"ACTIVE\",\n            \"category\": \"STOCKED\",\n            \"binnum\": \"BIN_IF_ANY_ELSE_EMPTY\",\n            \"lotnum\": \"\",\n            \"curbal\": 0.0,\n            \"lastcost\": 0.00000000,\n            \"unitcost\": 0.00000000,\n            \"physcnt\": 0,\n            \"consignment\": false,\n            \"averagecost\": 0.0,\n            \"standardcost\": 0.0,\n            \"conditioncode\": \"\",\n            \"lifetimeunits\": 0,\n            \"lifetimecost\": 0.0,\n            \"glaccount\": \"\"\n        }\n    },\n    {\n        \"_data\": {\n            \"itemnum\": \"ANOTHER_ITEM\",\n            \"itemsetid\": \"ITEMSET\",\n            \"location\": \"ITEM_STOREROOM_LOCATION_ID\",\n            \"siteid\": \"SITE\",\n            \"issueunit\": \"EACH\",\n            \"status\": \"ACTIVE\",\n            \"category\": \"STOCKED\",\n            \"binnum\": \"\",\n            \"lotnum\": \"\",\n            \"curbal\": 0.0,\n            \"lastcost\": 0.00000000,\n            \"unitcost\": 0.00000000,\n            \"physcnt\": 0,\n            \"consignment\": false,\n            \"averagecost\": 0.0,\n            \"standardcost\": 0.0,\n            \"conditioncode\": \"\",\n            \"lifetimeunits\": 0,\n            \"lifetimecost\": 0.0,\n            \"glaccount\": \"\"\n        }\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/mxapiinventory?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"mxapiinventory"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Create inv balances for the inventories",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							},
+							{
+								"key": "x-method-override",
+								"value": "BULK",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"_data\": {\n            \"itemnum\": \"ITEM_ID_HERE\",\n            \"itemsetid\": \"ITEMSET\",\n            \"location\": \"ITEM_STOREROOM_LOCATION_ID\",\n            \"siteid\": \"SITE\",\n            \"issueunit\": \"EACH\",\n            \"status\": \"ACTIVE\",\n            \"category\": \"STOCKED\",\n            \"binnum\": \"BIN_IF_ANY_ELSE_EMPTY\",\n            \"lotnum\": \"\",\n            \"curbal\": 0.0,\n            \"lastcost\": 0.00000000,\n            \"unitcost\": 0.00000000,\n            \"physcnt\": 0,\n            \"consignment\": false,\n            \"averagecost\": 0.0,\n            \"standardcost\": 0.0,\n            \"conditioncode\": \"\",\n            \"lifetimeunits\": 0,\n            \"lifetimecost\": 0.0,\n            \"glaccount\": \"\"\n        }\n    },\n    {\n        \"_data\": {\n            \"itemnum\": \"ANOTHER_ITEM\",\n            \"itemsetid\": \"ITEMSET\",\n            \"location\": \"ITEM_STOREROOM_LOCATION_ID\",\n            \"siteid\": \"SITE\",\n            \"issueunit\": \"EACH\",\n            \"status\": \"ACTIVE\",\n            \"category\": \"STOCKED\",\n            \"binnum\": \"\",\n            \"lotnum\": \"\",\n            \"curbal\": 0.0,\n            \"lastcost\": 0.00000000,\n            \"unitcost\": 0.00000000,\n            \"physcnt\": 0,\n            \"consignment\": false,\n            \"averagecost\": 0.0,\n            \"standardcost\": 0.0,\n            \"conditioncode\": \"\",\n            \"lifetimeunits\": 0,\n            \"lifetimecost\": 0.0,\n            \"glaccount\": \"\"\n        }\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/MXAPIINVBAL?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"MXAPIINVBAL"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MX API Assets",
+			"item": [
+				{
+					"name": "0. Bulk insert assets",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							},
+							{
+								"key": "x-method-override",
+								"value": "BULK",
+								"type": "text"
+							},
+							{
+								"key": "patchtype",
+								"value": "MERGE",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"_data\": {\n            \"assetnum\": \"ASSET_NUM_HERE\",\n            \"parent\": \"ASSET_PARENT_IF_HAS\",\n            \"location\": \"ASSET_LOCATION_IF_HAS\",\n            \"description\": \"Asset description here\",\n            \"classstructureid\": \"Class structure id here if you will have assetspecs\",\n            \"assetspec\": [\n                {\n                    \"assetattrid\": \"YOUR_CUSTOM_ATTRIBUTE_NAME_HERE\",\n                    \"alnvalue\": \"Any value you need here\"\n                },\n                {\n                    \"assetattrid\": \"ANOTHER_CUSTOM_ATTRIBUTE\",\n                    \"alnvalue\": \"Another value\"\n                }\n            ],\n            \"siteid\": \"SITE\",\n            \"status\": \"ACTIVE\"\n        }\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/mxasset?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"mxasset"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1. Create one asset",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							},
+							{
+								"key": "x-method-override",
+								"value": "PATCH",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "patchtype",
+								"value": "MERGE",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"assetnum\": \"ASSET_NUM_HERE\",\n    \"parent\": \"ASSET_PARENT_IF_HAS\",\n    \"location\": \"ASSET_LOCATION_IF_HAS\",\n    \"description\": \"Asset description here\",\n    \"classstructureid\": \"Class structure id here if you will have assetspecs\",\n    \"assetspec\": [\n        {\n            \"assetattrid\": \"YOUR_CUSTOM_ATTRIBUTE_NAME_HERE\",\n            \"alnvalue\": \"Any value you need here\"\n        },\n        {\n            \"assetattrid\": \"ANOTHER_CUSTOM_ATTRIBUTE\",\n            \"alnvalue\": \"Another value\"\n        }\n    ],\n    \"siteid\": \"SITE\",\n    \"status\": \"ACTIVE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/mxasset?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"mxasset"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MX API PMs",
+			"item": [
+				{
+					"name": "0. Create a route",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							},
+							{
+								"key": "x-method-override",
+								"value": "PATCH",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "patchtype",
+								"value": "MERGE",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"route\": \"MP-REST\",\n    \"description\": \"Testing REST API to create routes\",\n    \"siteid\": \"SITE\",\n    \"routestopsbecome\": \"MULTI\",\n    \"route_stop\": [\n        {\n            \"stopsequence\": \"1\",\n            \"assetnum\": \"3757\",\n            \"description\": \"CBR-A-12\",\n            \"siteid\": \"SITE\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/mxroute?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"mxroute"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1. Create one PM",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							},
+							{
+								"key": "x-method-override",
+								"value": "PATCH",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "patchtype",
+								"value": "MERGE",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sfid\": \"1MP2H0000004CU2WAM\",\n    \"pmnum\": \"MP-1662\",\n    \"customworktype\": \"Maintenance\",\n    \"accountid\": \"0018000000xpgUZAAY\",\n    \"frequnit\": \"YEARS\",\n    \"frequency\": \"1\",\n    \"schedstartdate\": \"2020-11-12T00:00:00\",\n    \"nextdate\": \"2022-11-14T00:00:00\",\n    \"description_longdescription\": \"As Test Acct - O&m - 2 - Primary PM\",\n    \"description\": \"As Test Acct - O&m - 2 - Primary PM\",\n    \"location\": \"905-1009\",\n    \"route\": \"MP-1662\",\n    \"siteid\": \"SITE\",\n    \"orgid\": \"ORG\",\n    \"worktype\": \"PM\",\n    \"wostatus\": \"NEWWO\",\n    \"parentchgsstatus\": \"true\",\n    \"status\": \"DRAFT\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/mxl_pm?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"mxl_pm"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MX API Service Addresses",
+			"item": [
+				{
+					"name": "0. Create service address",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							},
+							{
+								"key": "x-method-override",
+								"value": "PATCH",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "patchtype",
+								"value": "MERGE",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"addresscode\": \"TEST001\",\n    \"description\": \"This is a test service address\",\n    \"orgid\": \"ORG\",\n    \"streetaddress\": \"123 Main St\",\n    \"addressline2\": \"\",\n    \"addressline3\": \"\",\n    \"city\": \"Anytown\",\n    \"stateprovince\": \"NY\",\n    \"postalcode\": \"12345\",\n    \"country\": \"US\",\n    \"latitudey\": \"40.7128\",\n    \"longitudex\": \"-74.0060\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/mxapisrvad?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"mxapisrvad"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MX API Address",
+			"item": [
+				{
+					"name": "0. Bulk create addresses",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							},
+							{
+								"key": "x-method-override",
+								"value": "BULK",
+								"type": "text"
+							},
+							{
+								"key": "patchtype",
+								"value": "MERGE",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Musashino Clean Fourth JR HS\",\n            \"address1\": \"Singapore District Cooling GSS, C/O Marina Bay Sands Hotel, 12 Bayfront Avenue\",\n            \"address3\": null,\n            \"address5\": \"SINGAPORE\",\n            \"address4\": \"63114636\",\n            \"address2\": \"Singapore\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14000\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Koei R & D Center\",\n            \"address1\": \"UCI Car Shade-Princeton Pwr Unit - Other, 201A Facilities Mgmt Bldg, 19182 Jamboree Rd\",\n            \"address3\": \"CA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"92697-5444\",\n            \"address2\": \"Irvine\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14001\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Tokyo Gas\",\n            \"address1\": \"Chocksett Rd GSS, Sterling Municipal Light Dep, 36 Chocksett Rd\",\n            \"address3\": \"MA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"1564\",\n            \"address2\": \"Sterling\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14002\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Musashino Clean Center\",\n            \"address1\": \"Arica GSS, Av. Diego Portales N� 2431\",\n            \"address3\": null,\n            \"address5\": \"CHILE\",\n            \"address4\": \"GP76+J3\",\n            \"address2\": \"Arica\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14003\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Musashino Sports Complex\",\n            \"address1\": \"Accounts Payable Department, P.O. Box 3676\",\n            \"address3\": \"VA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"22203-3676\",\n            \"address2\": \"Arlington\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14004\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Pu-zhou\",\n            \"address1\": \"Accounts Payable Department, P.O. Box 3676\",\n            \"address3\": \"VA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"22203-3676\",\n            \"address2\": \"Arlington\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14005\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"NPG High Northgate\",\n            \"address1\": \"Accounts Payable Department, P.O. Box 3676\",\n            \"address3\": \"VA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"22203-3676\",\n            \"address2\": \"Arlington\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14006\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"NPG Wooler Ramsey\",\n            \"address1\": \"New York Road, Shiremoor\",\n            \"address3\": null,\n            \"address5\": \"UNITED KINGDOM\",\n            \"address4\": \"NE27 0LP\",\n            \"address2\": \"Newcastle-Upon-Tyne\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14007\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"NPG Rise Carr\",\n            \"address1\": \"NPG Wooler Ramsey GSS, 23 Broomey Rd, Wooler\",\n            \"address3\": null,\n            \"address5\": \"UNITED KINGDOM\",\n            \"address4\": \"NE71 6\",\n            \"address2\": \"Northumberland\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14008\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"NPG Harrowgate Hill\",\n            \"address1\": \"Yorktown GSS, 9900 Beverly Blvd\",\n            \"address3\": \"CA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"90660\",\n            \"address2\": \"Pico Rivera\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14009\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"NPG Wooler St. Mary\",\n            \"address1\": \"Yorktown GSS, 9900 Beverly Blvd\",\n            \"address3\": \"CA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"90660\",\n            \"address2\": \"Pico Rivera\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14010\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"NPG Maltby\",\n            \"address1\": \"Westminster GSS, UCI Facilities Mgmt � Shop Stores, 19182 Jamboree Road\",\n            \"address3\": \"CA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"92612\",\n            \"address2\": \"Irvine\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14011\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Almacena\",\n            \"address1\": \"TNB DSS, C/O Shen Yong Design And Fabrication, No. 14, Jalan Tp 4, Taman Perindustrian Bukit Rambai\",\n            \"address3\": null,\n            \"address5\": \"MALAYSIA\",\n            \"address4\": \"75260\",\n            \"address2\": \"Melaka\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14012\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Mullavilly\",\n            \"address1\": \"Suite 303, Tower A, Grand Pacific Building, 8A Guanghua Road, Chaoyang District\",\n            \"address3\": null,\n            \"address5\": \"CHINA\",\n            \"address4\": \"100026\",\n            \"address2\": \"Beijing\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14013\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Newark Energy\",\n            \"address1\": \"Suite 303, Tower A, Grand Pacific Building, 8A Guanghua Road, Chaoyang District\",\n            \"address3\": null,\n            \"address5\": \"CHINA\",\n            \"address4\": \"100026\",\n            \"address2\": \"Beijing\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14014\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Rhino-1\",\n            \"address1\": \"Alhambra GSS, 501 S. Marengo Ave.\",\n            \"address3\": \"CA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"91803\",\n            \"address2\": \"Alhambra\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14015\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Rhino-2\",\n            \"address1\": \"Npg Rise Carr GSS, 7 Percy Rd\",\n            \"address3\": null,\n            \"address5\": \"UNITED KINGDOM\",\n            \"address4\": \"DL3 0RX\",\n            \"address2\": \"Darlington\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14016\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Port of Tilbury\",\n            \"address1\": \"NPG Harrowgate Hill GSS, 467 North Rd\",\n            \"address3\": null,\n            \"address5\": \"UNITED KINGDOM\",\n            \"address4\": \"DL1 3\",\n            \"address2\": \"Darlington\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14017\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Drumkee\",\n            \"address1\": \"Desi 2 GSS, 3439 W Macarthur Blvd\",\n            \"address3\": \"CA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"92704\",\n            \"address2\": \"Santa Ana\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14018\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Zurich\",\n            \"address1\": \"Connolly GSS, 43222 90Th St W\",\n            \"address3\": \"CA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"93536\",\n            \"address2\": \"Lancaster\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14019\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Jardelund\",\n            \"address1\": \"UCI (SCE) GSS, Univ Of California - Irvine, 4666 Health Sciences Rd\",\n            \"address3\": \"CA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"92617\",\n            \"address2\": \"Irvine\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14020\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Glassenbury\",\n            \"address1\": \"NPG Wooler St Mary GSS, 23 Broomey Rd, Wooler\",\n            \"address3\": null,\n            \"address5\": \"UNITED KINGDOM\",\n            \"address4\": \"NE71 6\",\n            \"address2\": \"Northumberland\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14021\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Carnegie Road\",\n            \"address1\": \"NPG Maltby GSS, 24 Elgar Dr, Maltby\",\n            \"address3\": null,\n            \"address5\": \"UNITED KINGDOM\",\n            \"address4\": \"S66 7QE\",\n            \"address2\": \"Rotherham\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14022\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Cleveland Potash\",\n            \"address1\": \"Pomona GSS, 265 N. East End Avenue\",\n            \"address3\": \"CA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"91767\",\n            \"address2\": \"Pomona\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14023\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Peterborough\",\n            \"address1\": \"Auwahi GSS, Long 20.6836, Lat -156.4299\",\n            \"address3\": \"HI\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"96753\",\n            \"address2\": \"Kihei\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14024\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Ellesmere\",\n            \"address1\": \"SOMA GSS, Soma No. 2 Aero-Engine Works, 203, Oonodai 1-Chome, Soma-Shi\",\n            \"address3\": null,\n            \"address5\": \"JAPAN\",\n            \"address4\": \"976-0001\",\n            \"address2\": \"Fukushima\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14025\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Tusimice\",\n            \"address1\": \"DESI 1 GSS, 759 N. Eckhoff St\",\n            \"address3\": \"CA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"92869\",\n            \"address2\": \"Orange\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14026\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Lower Road\",\n            \"address1\": \"Colon GSS, 732 Aza Uenosako Yomogimachi, Kita-Ku\",\n            \"address3\": null,\n            \"address5\": \"JAPAN\",\n            \"address4\": null,\n            \"address2\": \"Kumamoto\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14027\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Cleator\",\n            \"address1\": \"Twin Lakes GSS, Twin Lakes Rd\",\n            \"address3\": \"CA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"93517\",\n            \"address2\": \"Bridgeport\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14028\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Seamer Carr\",\n            \"address1\": \"Av Dr Marcos Penteado Ulhoa Rodrigues, 401 Part 20\",\n            \"address3\": null,\n            \"address5\": \"Brazil\",\n            \"address4\": \"06460-040\",\n            \"address2\": \"Barueri\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14029\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"GB Pilot\",\n            \"address1\": \"Av. Dr. Cardoso de Melo, 1155-Vila Olimpia\",\n            \"address3\": null,\n            \"address5\": \"Brazil\",\n            \"address4\": \"04548-004\",\n            \"address2\": \"Sao Paulo - SP\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14030\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"DESRI Sim\",\n            \"address1\": \"Mullavilly GSS, Long 54.369942  Latt -6.428101\",\n            \"address3\": null,\n            \"address5\": \"UNITED KINGDOM\",\n            \"address4\": \"75-117 A27\",\n            \"address2\": \"Craigavon\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14031\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Template\",\n            \"address1\": \"38 Happy Hollow Rd\",\n            \"address3\": \"MA\",\n            \"address5\": null,\n            \"address4\": \"1475\",\n            \"address2\": \"Winchendon\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14032\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"FRP Caldwell Solar, LLC\",\n            \"address1\": \"7845 Colony Rd, Ste C4-241\",\n            \"address3\": \"NC\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"28209\",\n            \"address2\": \"Charlotte\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14033\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"FRP Miller Solar, LLC\",\n            \"address1\": \"DSD-Rotterdam S-0012588, 4982 Rynex Corners Rd\",\n            \"address3\": \"NY\",\n            \"address5\": \"United States\",\n            \"address4\": \"12137\",\n            \"address2\": \"Pattersonville\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14034\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Commerce\",\n            \"address1\": \"101 Summer St, Fl2\",\n            \"address3\": \"MA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"2110\",\n            \"address2\": \"Boston\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14035\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Holtsville\",\n            \"address1\": \"Ncsu Freedm Systems Center, 1791 Varsity Dr, Suite 100\",\n            \"address3\": \"NC\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"27606\",\n            \"address2\": \"Raleigh\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14036\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"LGES Software Engineering\",\n            \"address1\": \"11 A Street\",\n            \"address3\": \"MA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"2539\",\n            \"address2\": \"Edgartown\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14037\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Weld Energy Storage\",\n            \"address1\": \"58 Foley Road\",\n            \"address3\": null,\n            \"address5\": \"UNITED KINGDOM\",\n            \"address4\": \"KT1O 0ND\",\n            \"address2\": \"Claygate, Surrey\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14038\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"EdSan 2A/2B Simulation\",\n            \"address1\": \"5000 Sore Finger Road\",\n            \"address3\": \"AZ\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"85348\",\n            \"address2\": \"Salome\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14039\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Arica\",\n            \"address1\": \"Runderweg 5\",\n            \"address3\": null,\n            \"address5\": \"Netherlands\",\n            \"address4\": \"8219\",\n            \"address2\": \"Lelystad\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14040\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"CPFL\",\n            \"address1\": \"Runderweg 5\",\n            \"address3\": null,\n            \"address5\": \"Netherlands\",\n            \"address4\": \"8219\",\n            \"address2\": \"Lelystad\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14041\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Coca Cola\",\n            \"address1\": \"Port of Tilbury GSS, Port Of Tilbury, Leslie Ford House\",\n            \"address3\": null,\n            \"address5\": \"UNITED KINGDOM\",\n            \"address4\": \"RM18 7EH\",\n            \"address2\": \"Tilbury\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14042\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"McDonalds\",\n            \"address1\": \"EGAT Bamnet Narong 115kV, Sura Narai Road, Ban Tan\",\n            \"address3\": null,\n            \"address5\": \"THAILAND\",\n            \"address4\": \"36220\",\n            \"address2\": \"Chaiyaphum\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14043\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Comerc Bldg\",\n            \"address1\": \"89 Hayden Rowe St\",\n            \"address3\": \"MA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"1748\",\n            \"address2\": \"Hopkinton\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14044\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Farm\",\n            \"address1\": \"Titcomb Pit, C/O Kearsarge Solar, 23 S Martin Rd\",\n            \"address3\": \"MA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"1913\",\n            \"address2\": \"Amesbury\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14045\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Fernando de Noronha\",\n            \"address1\": \"117 Metro Center Blvd, STE 1007\",\n            \"address3\": \"RI\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"2886\",\n            \"address2\": \"Warwick\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14046\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Yumbo\",\n            \"address1\": \"Av. Dr. Cardoso de Melo, 1155 - Vila Olimpia\",\n            \"address3\": null,\n            \"address5\": \"Brazil\",\n            \"address4\": \"04548-004\",\n            \"address2\": \"Sao Paulo - SP\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14047\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Hopkinton\",\n            \"address1\": \"8th Floor 100 Bishopsgate\",\n            \"address3\": null,\n            \"address5\": \"UNITED KINGDOM\",\n            \"address4\": \"EC2N 4AG\",\n            \"address2\": \"London\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14048\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Bristol\",\n            \"address1\": \"H�fliger Pascal ZTL, Ueberlandstrasse 2\",\n            \"address3\": null,\n            \"address5\": \"SWITZERLAND\",\n            \"address4\": \"8953\",\n            \"address2\": \"DIETIKON\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14049\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Delta-Plymouth\",\n            \"address1\": \"Grenzstrabe 3\",\n            \"address3\": null,\n            \"address5\": \"GERMANY\",\n            \"address4\": \"24994\",\n            \"address2\": \"Jardelund\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14050\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"MPC-Walnut Grove\",\n            \"address1\": \"Tower 1, 108, Yeoui-daero, Yenogdeungpo-gu\",\n            \"address3\": null,\n            \"address5\": \"KOREA, REPUBLIC OF\",\n            \"address4\": \"7335\",\n            \"address2\": \"Seoul\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14051\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Chocksett Road\",\n            \"address1\": \"One Idlewild Drive_JFK Airport\",\n            \"address3\": \"NY\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"11430\",\n            \"address2\": \"Jamaica\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14052\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Andes\",\n            \"address1\": \"P O Box 5017\",\n            \"address3\": \"CT\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"06102-5017\",\n            \"address2\": \"Hartford\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14053\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Angamos\",\n            \"address1\": \"128, Yeouidaeto, Yeoungdeunpogu\",\n            \"address3\": null,\n            \"address5\": \"KOREA, REPUBLIC OF\",\n            \"address4\": \"7336\",\n            \"address2\": \"Seoul\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14054\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Tait/Dayton\",\n            \"address1\": \"128, Yeouidaeto, Yeoungdeunpogu\",\n            \"address3\": null,\n            \"address5\": \"KOREA, REPUBLIC OF\",\n            \"address4\": \"7336\",\n            \"address2\": \"Seoul\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14055\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Stillwater\",\n            \"address1\": \"128, Yeouidaeto, Yeoungdeunpogu\",\n            \"address3\": null,\n            \"address5\": \"KOREA, REPUBLIC OF\",\n            \"address4\": \"7336\",\n            \"address2\": \"Seoul\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14056\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Happy Hollow\",\n            \"address1\": \"128, Yeouidaeto, Yeoungdeunpogu\",\n            \"address3\": null,\n            \"address5\": \"KOREA, REPUBLIC OF\",\n            \"address4\": \"7336\",\n            \"address2\": \"Seoul\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14057\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Herron's Nest Microgrid\",\n            \"address1\": \"8800 N Gainey Center Drive, Suite 100\",\n            \"address3\": \"AZ\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"85258\",\n            \"address2\": \"Scottsdale\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14058\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Rotterdam\",\n            \"address1\": \"Av. Dr. Cardoso de Melo, 1155 - Vila Olimpia\",\n            \"address3\": null,\n            \"address5\": \"Brazil\",\n            \"address4\": \"04548-004\",\n            \"address2\": \"Sao Paulo - SP\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14059\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"IBEW 103\",\n            \"address1\": \"955 Old Wilmington Road\",\n            \"address3\": \"NC\",\n            \"address5\": \"United States\",\n            \"address4\": \"28301\",\n            \"address2\": \"Fayeteville\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14060\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"NC State\",\n            \"address1\": \"Nirvana Galvez, 641 Camino De La Fuente\",\n            \"address3\": \"CA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"92154\",\n            \"address2\": \"San Diego\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14061\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Vineyard Transit DSS\",\n            \"address1\": \"Nirvana Galvez, 641 Camino De La Fuente\",\n            \"address3\": \"CA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"92154\",\n            \"address2\": \"San Diego\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14062\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Medford DPW\",\n            \"address1\": \"Crigglestone Industrial Estate, Unit 7, Hight Street\",\n            \"address3\": null,\n            \"address5\": \"UNITED KINGDOM\",\n            \"address4\": \"WF4 3HT\",\n            \"address2\": \"Wakefield\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14063\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Amesbury\",\n            \"address1\": \"330 19th Ave E\",\n            \"address3\": \"WA\",\n            \"address5\": null,\n            \"address4\": \"98112\",\n            \"address2\": \"Seattle\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14064\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Attleboro Solar Farm\",\n            \"address1\": \"5 HOWICK PLACE\",\n            \"address3\": null,\n            \"address5\": \"UNITED KINGDOM\",\n            \"address4\": \"SW1P 1WG\",\n            \"address2\": \"LONDON\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14065\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"TWA JFK DSS1/DSS2\",\n            \"address1\": \"Cleveland Potash GSS, C/O Boulby Mine\",\n            \"address3\": null,\n            \"address5\": \"UNITED KINGDOM\",\n            \"address4\": \"TS13 4UZ\",\n            \"address2\": \"Saltburn-By-The-Sea\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14066\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Provincetown\",\n            \"address1\": \"Chai Badan Electricity Generation Authority-115kV, Saraburi-Lom Sak Road, Chainara\",\n            \"address3\": null,\n            \"address5\": \"THAILAND\",\n            \"address4\": \"15130\",\n            \"address2\": \"Lopburi\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14067\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Bright Arrow\",\n            \"address1\": \"Industrial Park Road\",\n            \"address3\": \"ME\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"4276\",\n            \"address2\": \"Rumford\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14068\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Fayetteville DSS1/DSS2\",\n            \"address1\": \"DSD-Glenville -S-0012587, 156 Barhydt Road\",\n            \"address3\": \"NY\",\n            \"address5\": \"United States\",\n            \"address4\": \"12302\",\n            \"address2\": \"Glenville\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14069\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Rumford\",\n            \"address1\": \"South Main Street GSS, 206 Rear South Main St\",\n            \"address3\": \"MA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"1949\",\n            \"address2\": \"Middleton\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14070\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Glenville\",\n            \"address1\": \"Santa Fe Community College DSS, 6401 Richards Ave\",\n            \"address3\": \"NM\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"87508\",\n            \"address2\": \"Santa Fe\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14071\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"South Main Street\",\n            \"address1\": \"4500 Sore Finger Road\",\n            \"address3\": \"AZ\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"85348\",\n            \"address2\": \"Salome\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14072\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Cleary Flood\",\n            \"address1\": \"1 Maxwell Rd\",\n            \"address3\": null,\n            \"address5\": \"UNITED KINGDOM\",\n            \"address4\": \"PE27JB\",\n            \"address2\": \"Peterborough\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14073\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"North Country\",\n            \"address1\": \"Cleary Flood GSS, 1314 Somerset Ave\",\n            \"address3\": \"MA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"2780\",\n            \"address2\": \"Taunton\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14074\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Philadelphia Navy Yard GSS\",\n            \"address1\": \"Frankland Road\",\n            \"address3\": \"MA\",\n            \"address5\": null,\n            \"address4\": \"1748\",\n            \"address2\": \"Hopkinton\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14075\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Holyoke\",\n            \"address1\": \"2832 Richgrove Dr\",\n            \"address3\": \"CA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"93215\",\n            \"address2\": \"Delano\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14076\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Montague\",\n            \"address1\": \"Veollia HTI, Bridges Road\",\n            \"address3\": null,\n            \"address5\": \"United Kingdom\",\n            \"address4\": \"CH65 4EQ\",\n            \"address2\": \"Ellesmere Port\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14077\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Haverhill\",\n            \"address1\": \"300 Spectrum Center Drive, Suite 1250\",\n            \"address3\": \"CA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"92618\",\n            \"address2\": \"Irvine\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14078\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Gateway (NY) North\",\n            \"address1\": \"300 Spectrum Center Drive, Suite 1250\",\n            \"address3\": \"CA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"92618\",\n            \"address2\": \"Irvine\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14079\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Gateway (NY) South\",\n            \"address1\": \"IBG Cesko, V piskovne 2053\",\n            \"address3\": null,\n            \"address5\": \"CZECH REPUBLIC\",\n            \"address4\": \"278 01\",\n            \"address2\": \"Kralupy Nad Vltavou\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14080\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Barclays Center\",\n            \"address1\": \"Lower Road GSS, Hutton Industrial Estate, Wash Rd\",\n            \"address3\": null,\n            \"address5\": \"UNITED KINGDOM\",\n            \"address4\": \"CM13 1BZ\",\n            \"address2\": \"Brentwood\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14081\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Caddell Dry Dock\",\n            \"address1\": \"C/O O'Connell Electric Company Inc, 895 County Highway 33\",\n            \"address3\": \"NY\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"12917\",\n            \"address2\": \"Burke\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14082\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Woodside\",\n            \"address1\": \"Philadelphia Navy Yard, South 19th St And Kitty Hawk Ave\",\n            \"address3\": \"PA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"19112\",\n            \"address2\": \"Philadelphia\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14083\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Circuit West DSS1/DSS2\",\n            \"address1\": \"Woodend Farm\",\n            \"address3\": null,\n            \"address5\": \"UNITED KINGDOM\",\n            \"address4\": \"CA22 2TA\",\n            \"address2\": \"Cumbria\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14084\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Templeton\",\n            \"address1\": \"50 Water St\",\n            \"address3\": \"MA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"1040\",\n            \"address2\": \"Holyoke\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14085\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Luther Forest\",\n            \"address1\": \"KSS-Montague BD-S-0012284, 0 Sandy Lane\",\n            \"address3\": \"MA\",\n            \"address5\": \"United States\",\n            \"address4\": \"1376\",\n            \"address2\": \"Montague\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14086\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Yabucoa Clinic\",\n            \"address1\": \"99 Yemma Rd.\",\n            \"address3\": \"MA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"1834\",\n            \"address2\": \"Groveland\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14087\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Meppi UPS Headquarters\",\n            \"address1\": \"Gateway (Ny) GSS, 576 Gateway Drive\",\n            \"address3\": \"NY\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"11111\",\n            \"address2\": \"Brooklyn\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14088\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Chattanooga DSS1/DSS2\",\n            \"address1\": \"Gateway (Ny) GSS, 576 Gateway Drive\",\n            \"address3\": \"NY\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"11111\",\n            \"address2\": \"Brooklyn\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14089\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"O&G Southbury Quarry\",\n            \"address1\": \"Barclays Center GSS, C/O Barclays Center, 620 Atlantic Ave\",\n            \"address3\": \"NY\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"11217\",\n            \"address2\": \"Brooklyn\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14090\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"City Island Ave\",\n            \"address1\": \"150 N Michigan Ave, Suite 1250\",\n            \"address3\": \"IL\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"60601\",\n            \"address2\": \"Chicago\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14091\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Columbus Zoo DSS1/DSS2\",\n            \"address1\": \"59.05 52nd AVE\",\n            \"address3\": \"NY\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"11377\",\n            \"address2\": \"WOODSIDE\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14092\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Charlton DSS\",\n            \"address1\": \"One Energy Plaza\",\n            \"address3\": \"MI\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"49201-2357\",\n            \"address2\": \"Jackson\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14093\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Madison Business Park\",\n            \"address1\": \"5-11-41 Kitamachi, Kichijoji, Musashino-shi\",\n            \"address3\": null,\n            \"address5\": \"JAPAN\",\n            \"address4\": \"180-0001\",\n            \"address2\": \"Tokyo\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14094\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Wakefield\",\n            \"address1\": \"12F 5-6-36 Toyosu, Koto-Ku\",\n            \"address3\": null,\n            \"address5\": \"JAPAN\",\n            \"address4\": \"135-8112\",\n            \"address2\": \"Tokyo\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14095\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Milford RMC\",\n            \"address1\": \"Templeton GSS, 86 Bridge St.\",\n            \"address3\": \"MA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"1436\",\n            \"address2\": \"Baldwinville\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14096\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Bettencourt MV\",\n            \"address1\": \"30 Substation Drive\",\n            \"address3\": \"NY\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"12866\",\n            \"address2\": \"Saratoga Springs\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14097\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"DFP-MED BLDG KC\",\n            \"address1\": \"P O Box 3215\",\n            \"address3\": null,\n            \"address5\": \"PUERTO RICO\",\n            \"address4\": \"605\",\n            \"address2\": \"Aguadilla\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14098\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Wilmarth Lane\",\n            \"address1\": \"P O Box 3215\",\n            \"address3\": null,\n            \"address5\": \"PUERTO RICO\",\n            \"address4\": \"605\",\n            \"address2\": \"Aguadilla\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14099\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Jones Street Substation\",\n            \"address1\": \"Av Dr Marcos Penteado Ulhoa Rodrigues, 401 Part 20\",\n            \"address3\": null,\n            \"address5\": \"BRAZIL\",\n            \"address4\": \"06460-040\",\n            \"address2\": \"Barueri\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14100\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Ashburnham\",\n            \"address1\": \"Thorn Hill Industrial Park, 530 Keystone Dr\",\n            \"address3\": \"PA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"15086\",\n            \"address2\": \"Warrendale\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14101\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"San Juan\",\n            \"address1\": \"Chattanooga Solar Dss1, Dss2, 900 Jubilee St\",\n            \"address3\": \"TN\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"37421\",\n            \"address2\": \"Chattanooga\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14102\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"LGES VT WBO Lab\",\n            \"address1\": \"1 Marina Park Dr, Suite 400\",\n            \"address3\": \"MA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"2210\",\n            \"address2\": \"Boston\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14103\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Steele Flats\",\n            \"address1\": \"1 Marina Park Dr, Suite 400\",\n            \"address3\": \"MA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"2210\",\n            \"address2\": \"Boston\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14104\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Johanna\",\n            \"address1\": \"City Island Ave GSS, 220 City Island Ave\",\n            \"address3\": \"NY\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"1234\",\n            \"address2\": \"Bronx\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14105\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Terragen_Edwards 3\",\n            \"address1\": \"2675 Morgantown Rd\",\n            \"address3\": \"PA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"19607\",\n            \"address2\": \"Reading\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14106\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"UCI Car Shade - Princeton PWR U\",\n            \"address1\": \"2675 Morgantown Rd\",\n            \"address3\": \"PA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"19607\",\n            \"address2\": \"Reading\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14107\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Yorktown\",\n            \"address1\": \"5005 Texas St., Suite 400\",\n            \"address3\": \"CA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"92108\",\n            \"address2\": \"San Diego\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14108\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Cadillac\",\n            \"address1\": \"Yumbo DSS, C/O EPSA, Calle 15 29 B-30 Autopista Cali, Yumbo\",\n            \"address3\": null,\n            \"address5\": \"COLOMBIA\",\n            \"address4\": \"76001\",\n            \"address2\": \"Valle Del Cauca\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14109\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Westminster\",\n            \"address1\": \"Toyko Gas DSS, Toyko Gas Co. Ltd, Application Technology Research Institute, 1-7-7 Suehiro-Cho\",\n            \"address3\": null,\n            \"address5\": \"JAPAN\",\n            \"address4\": \"230-0045\",\n            \"address2\": \"Yokohama\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14110\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Alhambra\",\n            \"address1\": \"Madison Electric Works, 6 Business Park Dr.\",\n            \"address3\": \"ME\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"4950\",\n            \"address2\": \"Madison\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14111\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"DESI 2\",\n            \"address1\": \"Wakefield GSS, 163 Farm St\",\n            \"address3\": \"MA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"1880\",\n            \"address2\": \"Wakefield\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14112\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Connolly\",\n            \"address1\": \"3-1-5 Midorimachi, Musashino-shi\",\n            \"address3\": null,\n            \"address5\": \"JAPAN\",\n            \"address4\": \"180-0012\",\n            \"address2\": \"Tokyo\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14113\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"UCI (SCE)\",\n            \"address1\": \"37 Industrial Dr\",\n            \"address3\": \"NH\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"3833\",\n            \"address2\": \"Exeter\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14114\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Pomona\",\n            \"address1\": \"2365 Iron Point Road #100\",\n            \"address3\": \"CA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"95630\",\n            \"address2\": \"Folsom\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14115\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Auwahi\",\n            \"address1\": \"2365 Iron Point Road #100\",\n            \"address3\": \"CA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"95630\",\n            \"address2\": \"Folsom\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14116\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"DESI 1\",\n            \"address1\": \"Wilmarth Lane Gss, Wilmarth Lane Gss, 15 Wilmarth Lane\",\n            \"address3\": \"MA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"2762\",\n            \"address2\": \"Plainville\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14117\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Twin Lakes\",\n            \"address1\": \"Seamer GSS, Seamer Carr Waste Centre, Dunslow Rd\",\n            \"address3\": null,\n            \"address5\": \"UNITED KINGDOM\",\n            \"address4\": \"Y012 4QA\",\n            \"address2\": \"Scarborough\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14118\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Key ESS 2\",\n            \"address1\": \"5-11-20 Kitamachi, Kichijoji, Musashino-shi\",\n            \"address3\": null,\n            \"address5\": \"JAPAN\",\n            \"address4\": \"180-0001\",\n            \"address2\": \"Tokyo\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14119\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"MossLanding 100\",\n            \"address1\": \"Jones St GSS, 70 Jones Street\",\n            \"address3\": \"ME\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"4950\",\n            \"address2\": \"Madison\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14120\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"MossLanding 300\",\n            \"address1\": \"Ashburnham GSS, 48 Turnpike Rd\",\n            \"address3\": \"MA\",\n            \"address5\": \"UNITED STATES\",\n            \"address4\": \"1430\",\n            \"address2\": \"Ashburnham\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14121\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"MossLanding 350\",\n            \"address1\": \"523 Hangar Road\",\n            \"address3\": null,\n            \"address5\": \"PUERTO RICO\",\n            \"address4\": \"603\",\n            \"address2\": \"Aquadilla\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14122\n        }\n    },\n    {\n        \"_data\": {\n            \"AEROS_SITE_NAME\": \"Terragen_Edwards 2\",\n            \"address1\": \"Puzhou GSS, Puzhou Power Plant, 333# Zhongshan East Street, Hangjin QI\",\n            \"address3\": null,\n            \"address5\": \"CHINA\",\n            \"address4\": null,\n            \"address2\": \"Yongji City\",\n            \"orgid\": \"ORG\",\n            \"addresscode\": 14123\n        }\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/MXL_ADDRESS?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"MXL_ADDRESS"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MX API Invoice",
+			"item": [
+				{
+					"name": "Updating an invoice",
+					"item": [
+						{
+							"name": "1. Getting the invoice info",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "maxauth",
+										"value": "{{maxauth}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_maximo_url}}/mxapiinvoice?lean=1&oslc.where=invoiceid=503&oslc.select=invoiceid,href,externalstatus,doclinks",
+									"host": [
+										"{{base_maximo_url}}"
+									],
+									"path": [
+										"mxapiinvoice"
+									],
+									"query": [
+										{
+											"key": "lean",
+											"value": "1"
+										},
+										{
+											"key": "oslc.where",
+											"value": "invoiceid=503"
+										},
+										{
+											"key": "oslc.select",
+											"value": "invoiceid,href,externalstatus,doclinks"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Updating that invoice with its ID",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "maxauth",
+										"value": "{{maxauth}}",
+										"type": "text"
+									},
+									{
+										"key": "x-method-override",
+										"value": "PATCH",
+										"type": "text"
+									},
+									{
+										"key": "patch-type",
+										"value": "MERGE",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"siteid\": \"SITEE\",\n    \"orgid\": \"ORG\",\n    \"status\": \"APPR\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_maximo_url}}/mxapiinvoice/:invoiceId?lean=1",
+									"host": [
+										"{{base_maximo_url}}"
+									],
+									"path": [
+										"mxapiinvoice",
+										":invoiceId"
+									],
+									"query": [
+										{
+											"key": "lean",
+											"value": "1"
+										}
+									],
+									"variable": [
+										{
+											"key": "invoiceId",
+											"value": "503"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Query invoices",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_maximo_url}}/mxapiinvoice?lean=1&oslc.where=externalstatus=\"RDY_FOR_TRANSF\"&oslc.select=*",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"mxapiinvoice"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								},
+								{
+									"key": "oslc.where",
+									"value": "externalstatus=\"RDY_FOR_TRANSF\""
+								},
+								{
+									"key": "oslc.select",
+									"value": "*"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_maximo_url}}/mxapiinvoice/:id",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"mxapiinvoice",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "_MTAwNy9SRUNTSVRF"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get invoice lines",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_maximo_url}}/mxapiinvoice/:id/invoiceline",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"mxapiinvoice",
+								":id",
+								"invoiceline"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "_MTAwNy9SRUNTSVRF"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MX API Craft Rates",
+			"item": [
+				{
+					"name": "1. Query service request",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_maximo_url}}/os/MXAPICRAFTRATE?lean=1&oslc.where=contractnum=\"46187\"&oslc.select=*",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"MXAPICRAFTRATE"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								},
+								{
+									"key": "oslc.where",
+									"value": "contractnum=\"46187\""
+								},
+								{
+									"key": "oslc.select",
+									"value": "*"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://cleanleafmaxqa.softwrench2.com/maximo/oslc/os/MXAPICRAFTRATE?oslc.select=*&oslc.where=contractnum%3D%221011%22",
+							"protocol": "https",
+							"host": [
+								"cleanleafmaxqa",
+								"softwrench2",
+								"com"
+							],
+							"path": [
+								"maximo",
+								"oslc",
+								"os",
+								"MXAPICRAFTRATE"
+							],
+							"query": [
+								{
+									"key": "oslc.select",
+									"value": "*"
+								},
+								{
+									"key": "oslc.where",
+									"value": "contractnum%3D%221011%22"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MX Documents",
+			"item": [
+				{
+					"name": "0. Create Attachment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "slug",
+								"value": "test.jpg",
+								"type": "text"
+							},
+							{
+								"key": "x-document-meta",
+								"value": "FILE/Attachments",
+								"type": "text"
+							},
+							{
+								"key": "x-document-description",
+								"value": "Test Image",
+								"type": "text"
+							},
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "file",
+							"file": {
+								"src": "/Users/rckmath/Downloads/47702_1.png"
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/os/swsr/53035/doclinks",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"swsr",
+								"53035",
+								"doclinks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1. Query attachments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_maximo_url}}/os/swdoclinks?lean=1&oslc.where=docinfoid=34502&oslc.select=document,urlname,documentdata&inlinedoc=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"os",
+								"swdoclinks"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								},
+								{
+									"key": "oslc.where",
+									"value": "docinfoid=34502"
+								},
+								{
+									"key": "oslc.select",
+									"value": "document,urlname,documentdata"
+								},
+								{
+									"key": "inlinedoc",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get OS JSON Schema",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "maxauth",
+						"value": "bWF4YWRtaW46bWF4YWRtaW4=",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_maximo_url}}/jsonschemas/:osname",
+					"host": [
+						"{{base_maximo_url}}"
+					],
+					"path": [
+						"jsonschemas",
+						":osname"
+					],
+					"variable": [
+						{
+							"key": "osname",
+							"value": "mxpo"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Object Structure List",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "maxauth",
+						"value": "{{maxauth}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_maximo_url}}/os/MXINTOBJECT?lean=1&oslc.select=intobjectname,description,rel.maxintobjdetail{objectname,hierarchypath}&oslc.where=usewith=\"INTEGRATION\"",
+					"host": [
+						"{{base_maximo_url}}"
+					],
+					"path": [
+						"os",
+						"MXINTOBJECT"
+					],
+					"query": [
+						{
+							"key": "lean",
+							"value": "1"
+						},
+						{
+							"key": "oslc.select",
+							"value": "intobjectname,description,rel.maxintobjdetail{objectname,hierarchypath}"
+						},
+						{
+							"key": "oslc.where",
+							"value": "usewith=\"INTEGRATION\""
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "maxauth",
+			"value": "<<your_max_auth_here>>",
+			"type": "default"
+		},
+		{
+			"key": "base_maximo_url",
+			"value": "https://your_instance_name_here.softwrench2.com/maximo/oslc",
+			"type": "default"
+		}
+	]
+}

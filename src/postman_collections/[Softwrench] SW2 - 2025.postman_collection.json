@@ -1,0 +1,1290 @@
+{
+	"info": {
+		"_postman_id": "c556f1af-55b6-4b1e-b83a-a8f50f55ba2c",
+		"name": "[Softwrench] SW2 - 2025",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11867613"
+	},
+	"item": [
+		{
+			"name": "[Features]",
+			"item": [
+				{
+					"name": "Work Orders",
+					"item": [
+						{
+							"name": "Get With Pagination - Main List",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "LoginId",
+										"value": "{{loginId}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_path}}/api/workorder/GetWithPaginationMainList?pageSize=20",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"workorder",
+										"GetWithPaginationMainList"
+									],
+									"query": [
+										{
+											"key": "pageSize",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Get With Custom",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "LoginId",
+										"value": "{{loginId}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_path}}/api/workorder/NewGetWithPaginationCustom?pageSize=20",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"workorder",
+										"NewGetWithPaginationCustom"
+									],
+									"query": [
+										{
+											"key": "pageSize",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Custom",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "LoginId",
+										"value": "{{loginId}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_path}}/api/workorder/GetWithPaginationCustom?pageSize=20",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"workorder",
+										"GetWithPaginationCustom"
+									],
+									"query": [
+										{
+											"key": "pageSize",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Dynamic Report",
+					"item": [
+						{
+							"name": "Get List",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "LoginId",
+										"value": "{{loginId}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_path}}/api/DynamicReport/GetList?securityGroups=1",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"DynamicReport",
+										"GetList"
+									],
+									"query": [
+										{
+											"key": "securityGroups",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Report Content",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "LoginId",
+										"value": "{{loginId}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_path}}/api/DynamicReport/GetReportTableContent?dynamicReportTableId=1&page=1&pageSize=20",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"DynamicReport",
+										"GetReportTableContent"
+									],
+									"query": [
+										{
+											"key": "dynamicReportTableId",
+											"value": "1"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Checklists",
+					"item": [
+						{
+							"name": "Get Form Templates",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "LoginId",
+										"value": "{{loginId}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_path}}/api/FormTemplate/GetWithPagination?createdBy=&name=&page=1&pageSize=20",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"FormTemplate",
+										"GetWithPagination"
+									],
+									"query": [
+										{
+											"key": "createdBy",
+											"value": ""
+										},
+										{
+											"key": "name",
+											"value": ""
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Service Requests",
+					"item": [
+						{
+							"name": "Get With Pagination",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "LoginId",
+										"value": "{{loginId}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_path}}/api/serviceRequest/GetWithPagination?MaxPersonId=BWC GREEN BROOK, LLC&description=&locationDescription=&ownerId=&page=1&pageSize=200&parentLocationDescription=BWC&priorityId=&reportedAt=&reportedById=&serviceRequestId=&statusId=STAGE5A",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"serviceRequest",
+										"GetWithPagination"
+									],
+									"query": [
+										{
+											"key": "MaxPersonId",
+											"value": "BWC GREEN BROOK, LLC"
+										},
+										{
+											"key": "RestrictToClient",
+											"value": "true",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": ""
+										},
+										{
+											"key": "locationDescription",
+											"value": ""
+										},
+										{
+											"key": "ownerId",
+											"value": ""
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "200"
+										},
+										{
+											"key": "parentLocationDescription",
+											"value": "BWC"
+										},
+										{
+											"key": "priorityId",
+											"value": ""
+										},
+										{
+											"key": "reportedAt",
+											"value": ""
+										},
+										{
+											"key": "reportedById",
+											"value": ""
+										},
+										{
+											"key": "serviceRequestId",
+											"value": ""
+										},
+										{
+											"key": "statusId",
+											"value": "STAGE5A"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate Report",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "LoginId",
+										"value": "{{loginId}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_path}}/api/ServiceRequest/GenerateReportPdf/:id",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"ServiceRequest",
+										"GenerateReportPdf",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "51675"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Plans Materials",
+					"item": [
+						{
+							"name": "Get With Pagination",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "LoginId",
+										"value": "{{loginId}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_path}}/api/plansMaterial/GetWithPagination?customTransactionType=&description=&directReq=&direction=false&issueType=&itemNum=&lineType=&materialType=&onSiteNeededBy=&origin=MATERIAL&page=1&pageSize=20&quantity=&shippingOption=&siteId=SITE&storeLoc=&taxIncluded=&transDate=&woNum=3424",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"plansMaterial",
+										"GetWithPagination"
+									],
+									"query": [
+										{
+											"key": "customTransactionType",
+											"value": ""
+										},
+										{
+											"key": "description",
+											"value": ""
+										},
+										{
+											"key": "directReq",
+											"value": ""
+										},
+										{
+											"key": "direction",
+											"value": "false"
+										},
+										{
+											"key": "issueType",
+											"value": ""
+										},
+										{
+											"key": "itemNum",
+											"value": ""
+										},
+										{
+											"key": "lineType",
+											"value": ""
+										},
+										{
+											"key": "materialType",
+											"value": ""
+										},
+										{
+											"key": "onSiteNeededBy",
+											"value": ""
+										},
+										{
+											"key": "origin",
+											"value": "MATERIAL"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "20"
+										},
+										{
+											"key": "quantity",
+											"value": ""
+										},
+										{
+											"key": "shippingOption",
+											"value": ""
+										},
+										{
+											"key": "siteId",
+											"value": "SITE"
+										},
+										{
+											"key": "storeLoc",
+											"value": ""
+										},
+										{
+											"key": "taxIncluded",
+											"value": ""
+										},
+										{
+											"key": "transDate",
+											"value": ""
+										},
+										{
+											"key": "woNum",
+											"value": "3424"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Attachments",
+					"item": [
+						{
+							"name": "Get By Owner",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "LoginId",
+										"value": "{{loginId}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_path}}/api/attachment/GetByOwner?pageSize=20&OwnerId=119323&OwnerTable=WORKORDER&WithContent=true",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"attachment",
+										"GetByOwner"
+									],
+									"query": [
+										{
+											"key": "pageSize",
+											"value": "20"
+										},
+										{
+											"key": "OwnerId",
+											"value": "119323"
+										},
+										{
+											"key": "OwnerTable",
+											"value": "WORKORDER"
+										},
+										{
+											"key": "WithContent",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Allowed Extensions",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "LoginId",
+										"value": "{{loginId}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_path}}/api/attachment/GetAllowedFileExtension",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"attachment",
+										"GetAllowedFileExtension"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "[Jobs]",
+			"item": [
+				{
+					"name": "Kronos Integration",
+					"item": [
+						{
+							"name": "Send Labor Transactions",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "5871b47d-28c5-45cb-b5bf-bba191d984c2",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_path}}/api/LaborIntegration/SendLaborTransactions",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"LaborIntegration",
+										"SendLaborTransactions"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Integration Hub",
+					"item": [
+						{
+							"name": "Send Infor SROs",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "5871b47d-28c5-45cb-b5bf-bba191d984c2",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_path}}/api/IntegrationHub/InforSendPendingSroEntries",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"IntegrationHub",
+										"InforSendPendingSroEntries"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send Labors to SAP",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "5871b47d-28c5-45cb-b5bf-bba191d984c2",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_path}}/api/IntegrationHub/B2BiSendLabors?integrationStatus=&monthToSend=7",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"IntegrationHub",
+										"B2BiSendLabors"
+									],
+									"query": [
+										{
+											"key": "integrationStatus",
+											"value": ""
+										},
+										{
+											"key": "monthToSend",
+											"value": "7"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send Infor SRO Transactions",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-api-key",
+										"value": "5871b47d-28c5-45cb-b5bf-bba191d984c2",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_path}}/api/IntegrationHub/InforSendPendingSroTransactionEntries",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"IntegrationHub",
+										"InforSendPendingSroTransactionEntries"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get and sync items from Infor",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_path}}/api/IntegrationHub/InforGetAndSyncItems",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"IntegrationHub",
+										"InforGetAndSyncItems"
+									],
+									"query": [
+										{
+											"key": "maxRows",
+											"value": "1000",
+											"disabled": true
+										},
+										{
+											"key": "filterItemDescriptionStartingWith",
+											"value": "A,B",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get and sync items from B2Bi",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_path}}/api/IntegrationHub/B2BiGetAndSyncItems",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"IntegrationHub",
+										"B2BiGetAndSyncItems"
+									],
+									"query": [
+										{
+											"key": "maxRows",
+											"value": "1000",
+											"disabled": true
+										},
+										{
+											"key": "filterItemDescriptionStartingWith",
+											"value": "A,B",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PR & PO Flow",
+					"item": [
+						{
+							"name": "1. Sync PRs to MSD",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{api_path}}/api/WorkOrderPurchaseRequisition/UpdatePurchaseRequests",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"WorkOrderPurchaseRequisition",
+										"UpdatePurchaseRequests"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Get POs from MSD",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{api_path}}/api/WorkOrderPurchaseOrder/UpdatePurchaseOrders",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"WorkOrderPurchaseOrder",
+										"UpdatePurchaseOrders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Generate POs",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{api_path}}/api/WorkOrderPurchaseRequisition/SyncPurchaseRequestsPOs",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"WorkOrderPurchaseRequisition",
+										"SyncPurchaseRequestsPOs"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Inventory Usage",
+					"item": [
+						{
+							"name": "1. Sync Inventory Usage to MSD",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{api_path}}/api/InventoryUsage/SyncInventoryUsage",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"InventoryUsage",
+										"SyncInventoryUsage"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. Receive Storeroom Transfer (Patch Transfer Order)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"IssueType\": \"SHIPRECEIPT\",\r\n    \"ShipmentLineNum\": 1,\r\n    \"InvUseLineId\": 9021,\r\n    \"ShipmentNum\": \"1203\",\r\n    \"FromSiteId\": \"NSPSSITE\",\r\n    \"ItemNum\": \"80016707\",\r\n    \"LineType\": \"ITEM\",\r\n    \"SiteId\": \"NSPSSITE\",\r\n    \"WoNum\": \"422273\",\r\n    \"ToStoreroom\": \"1803-0050\",\r\n    \"Description\": \"GE, N441250S15DC, 1250A Ld Switch 1500V\",\r\n    \"ItemSetId\": \"NSPSITEM\",\r\n    \"ReceiptQuantity\": 5,\r\n    \"Status\": \"COMP\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_path}}/api/ReceiveTransferMaterial/ReceiveTransferMaterial",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"ReceiveTransferMaterial",
+										"ReceiveTransferMaterial"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Item Cost",
+					"item": [
+						{
+							"name": "1. Update Items Cost",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{api_path}}/api/InvCost/UpdateItemsCost",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"InvCost",
+										"UpdateItemsCost"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Checklists",
+					"item": [
+						{
+							"name": "Sync All Tasks and Checklists",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_path}}/api/FormWOChecklist/updateWOChecklist",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"FormWOChecklist",
+										"updateWOChecklist"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Billing and Estimate",
+					"item": [
+						{
+							"name": "GenerateAllBillingsAndEstimates",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "cleu2YtS4nyE7NIPljBmQNlkmvRw07DrNFWEywnAckTO2Z6PcACxH0FI20DXA9sMjAdwPGrDC1ARzwj2P62o7dqLAJtT4LE5nYxh8gXlVTR7jI3dPmKhdkMdjYYhRxV0",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "cleu2YtS4nyE7NIPljBmQNlkmvRw07DrNFWEywnAckTO2Z6PcACxH0FI20DXA9sMjAdwPGrDC1ARzwj2P62o7dqLAJtT4LE5nYxh8gXlVTR7jI3dPmKhdkMdjYYhRxV0",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_path}}/api/WorkOrder/GenerateEstimatesAndBillings",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"WorkOrder",
+										"GenerateEstimatesAndBillings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Recalculate All Totals And Taxes",
+							"request": {
+								"auth": {
+									"type": "apikey",
+									"apikey": [
+										{
+											"key": "value",
+											"value": "cleu2YtS4nyE7NIPljBmQNlkmvRw07DrNFWEywnAckTO2Z6PcACxH0FI20DXA9sMjAdwPGrDC1ARzwj2P62o7dqLAJtT4LE5nYxh8gXlVTR7jI3dPmKhdkMdjYYhRxV0",
+											"type": "string"
+										},
+										{
+											"key": "key",
+											"value": "X-Api-Key",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-Api-Key",
+										"value": "cleu2YtS4nyE7NIPljBmQNlkmvRw07DrNFWEywnAckTO2Z6PcACxH0FI20DXA9sMjAdwPGrDC1ARzwj2P62o7dqLAJtT4LE5nYxh8gXlVTR7jI3dPmKhdkMdjYYhRxV0",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{api_path}}/api/Billing/RecalculateTotalsAndTaxesFromLaborItems",
+									"host": [
+										"{{api_path}}"
+									],
+									"path": [
+										"api",
+										"Billing",
+										"RecalculateTotalsAndTaxesFromLaborItems"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Migrate Integration Logs",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{api_path}}/api/IntegrationLog/Migrate",
+							"host": [
+								"{{api_path}}"
+							],
+							"path": [
+								"api",
+								"IntegrationLog",
+								"Migrate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "[Serverless]",
+			"item": [
+				{
+					"name": "Send Push Notification",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "PHLKdSVbex1Ql9yFjoEqZUIVGGihG7cNSa99rJ4xqd4HyAbsja",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"environment\": \"production\",\n    \"notification\": {\n        \"code\": \"v2.2.8.9\",\n        \"title\": \"SoftWrench Update\",\n        \"body\": \"There is an update available for you. Open your app and update it.\"\n    },\n    \"clientName\": \"PANASONIC\",\n    \"maxPersonIdList\": [\"BRETT.KAHN\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://05ap0fhksk.execute-api.us-west-1.amazonaws.com/push-notification",
+							"protocol": "https",
+							"host": [
+								"05ap0fhksk",
+								"execute-api",
+								"us-west-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"push-notification"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "0. Authenticate",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Retrieve the key and IV from collection variables",
+							"const key = CryptoJS.enc.Utf8.parse(pm.collectionVariables.get(\"KEY\"));",
+							"const iv = CryptoJS.enc.Utf8.parse(pm.collectionVariables.get(\"IV\"));",
+							"",
+							"// Extract the raw password from the query parameter named \"rawPassword\"",
+							"const queryParams = pm.request.url.query.toObject();",
+							"const passwordRaw = queryParams.rawPassword;",
+							"",
+							"// Encrypt the raw password using AES (CBC mode with PKCS7 padding)",
+							"const encrypted = CryptoJS.AES.encrypt(passwordRaw, key, {",
+							"    mode: CryptoJS.mode.CBC,",
+							"    padding: CryptoJS.pad.Pkcs7,",
+							"    iv: iv",
+							"});",
+							"",
+							"const encryptedPassword = encrypted.ciphertext.toString(CryptoJS.enc.Base64);",
+							"",
+							"pm.collectionVariables.set(\"password\", encryptedPassword);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse the response body as JSON",
+							"const responseData = pm.response.json();",
+							"",
+							"const getToken = (incomingToken) => {",
+							"    const key = CryptoJS.enc.Utf8.parse(pm.collectionVariables.get(\"KEY\"));",
+							"    const iv = CryptoJS.enc.Utf8.parse(pm.collectionVariables.get(\"IV\"));",
+							"",
+							"    // Encrypt the raw password using AES (CBC mode with PKCS7 padding)",
+							"    const token = CryptoJS.AES.encrypt(incomingToken, key, {",
+							"        mode: CryptoJS.mode.CBC,",
+							"        padding: CryptoJS.pad.Pkcs7,",
+							"        iv: iv",
+							"    });",
+							"",
+							"    return token.ciphertext.toString(CryptoJS.enc.Base64);",
+							"}",
+							"",
+							"// Check if the Token attribute exists in the response",
+							"if (responseData && responseData.Token) {",
+							"    // Set the Token as a collection variable",
+							"    pm.collectionVariables.set(\"loginId\", responseData.Id);",
+							"    pm.collectionVariables.set(\"token\", getToken(responseData.Token));",
+							"    pm.collectionVariables.set(\"maxPersonId\", responseData.MaxPersonId);",
+							"} else {",
+							"    console.error(\"Token not found in the response.\");",
+							"}",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_path}}/api/login/Authenticate?username=your_username_here&rawPassword=your_raw_password_here&password={{password}}",
+					"host": [
+						"{{api_path}}"
+					],
+					"path": [
+						"api",
+						"login",
+						"Authenticate"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "your_username_here"
+						},
+						{
+							"key": "rawPassword",
+							"value": "your_raw_password_here"
+						},
+						{
+							"key": "password",
+							"value": "{{password}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1. Check User",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "LoginId",
+						"value": "{{loginId}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_path}}/api/Login/CheckUser",
+					"host": [
+						"{{api_path}}"
+					],
+					"path": [
+						"api",
+						"Login",
+						"CheckUser"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "KEY",
+			"value": "auth_encryption_key_here",
+			"type": "string"
+		},
+		{
+			"key": "IV",
+			"value": "auth_encryption_iv_here",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": ""
+		},
+		{
+			"key": "api_path",
+			"value": "https://<client_name>app.softwrench2.com",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "maxPersonId",
+			"value": ""
+		},
+		{
+			"key": "loginId",
+			"value": ""
+		}
+	]
+}

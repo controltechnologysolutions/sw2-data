@@ -59,7 +59,20 @@ def transform_person(value):
     return (parts[0][0] + parts[-1]).upper()
 
 
-def parse_csv_chunk(chunk, headers, parse_dates=False, person_transform_columns=None):
+def is_empty_value(val):
+    """
+    Check if a value should be considered empty.
+    """
+    if isinstance(val, str):
+        return not val.strip()
+    if isinstance(val, dict):
+        return all(is_empty_value(v) for v in val.values())
+    if isinstance(val, list):
+        return all(is_empty_value(v) for v in val)
+    return val is None
+
+
+def parse_csv_chunk(chunk, headers, parse_dates=False, person_transform_columns=None, ignore_empty=False):
     """
     Convert a list of CSV rows (chunk) into a list of row-objects (dicts).
       - Headers in the form field[subfield] go into row_dict["field"][0]["subfield"].
@@ -72,12 +85,18 @@ def parse_csv_chunk(chunk, headers, parse_dates=False, person_transform_columns=
     If 'person_transform_columns' is provided (as a list of header names),
     then for any header in that list, the corresponding value is transformed
     using the person name rule (first letter of the first name + last name, all uppercase).
+
+    If 'ignore_empty' is True, empty values will be excluded from the output.
+    For objects and arrays, if all nested values are empty, the entire structure is excluded.
     """
     row_objects = []
     for row in chunk:
         row_dict = {}
     
         for h, val in zip(headers, row):
+            if ignore_empty and is_empty_value(val):
+                continue
+
             if parse_dates and val.strip():
                 parsed = parse_date_if_match(val)
                 if parsed is not None:
@@ -90,11 +109,19 @@ def parse_csv_chunk(chunk, headers, parse_dates=False, person_transform_columns=
                 field = indexed_bracket_match.group(1)
                 index = int(indexed_bracket_match.group(2))
                 subfield = indexed_bracket_match.group(3)
+                
                 if field not in row_dict:
                     row_dict[field] = []
                 while len(row_dict[field]) <= index:
                     row_dict[field].append({})
                 row_dict[field][index][subfield] = val
+                
+                # Clean up empty objects in arrays if ignore_empty is True
+                if ignore_empty:
+                    row_dict[field] = [obj for obj in row_dict[field] if not is_empty_value(obj)]
+                    if not row_dict[field]:
+                        del row_dict[field]
+                        
             else:
                 bracket_match = BRACKET_PATTERN.match(h)
                 brace_match   = BRACE_PATTERN.match(h)
@@ -104,19 +131,29 @@ def parse_csv_chunk(chunk, headers, parse_dates=False, person_transform_columns=
                     if field not in row_dict:
                         row_dict[field] = [{}]
                     row_dict[field][0][subfield] = val
+                    
+                    # Clean up empty objects in arrays if ignore_empty is True
+                    if ignore_empty and is_empty_value(row_dict[field][0]):
+                        del row_dict[field]
+                        
                 elif brace_match:
                     field    = brace_match.group(1)
                     subfield = brace_match.group(2)
                     if field not in row_dict:
                         row_dict[field] = {}
                     row_dict[field][subfield] = val
+                    
+                    # Clean up empty objects if ignore_empty is True
+                    if ignore_empty and is_empty_value(row_dict[field]):
+                        del row_dict[field]
+                        
                 else:
                     row_dict[h] = val
         row_objects.append(row_dict)
     return row_objects
 
 
-def worker(input_queue, output_queue, headers, parse_dates=False, person_transform_columns=None):
+def worker(input_queue, output_queue, headers, parse_dates=False, person_transform_columns=None, ignore_empty=False):
     """
     Worker thread function:
       - Receives chunks of rows from 'input_queue'
@@ -133,7 +170,8 @@ def worker(input_queue, output_queue, headers, parse_dates=False, person_transfo
             chunk,
             headers,
             parse_dates=parse_dates,
-            person_transform_columns=person_transform_columns
+            person_transform_columns=person_transform_columns,
+            ignore_empty=ignore_empty
         )
         output_queue.put(row_objects)
         input_queue.task_done()
@@ -237,7 +275,8 @@ def csv_to_json_threads(input_file,
                         chunk_size=CHUNK_SIZE_DEFAULT,
                         enc=None,
                         parse_dates=False,
-                        person_transform_columns=None):
+                        person_transform_columns=None,
+                        ignore_empty=False):
     """
     Convert a CSV to JSON array-of-objects, but split output into ~100 MB files.
 
@@ -250,6 +289,7 @@ def csv_to_json_threads(input_file,
         parse_dates  (bool): If True, only parse values matching known date/time formats.
         person_transform_columns (list[str]): Optional list of CSV header names for which
             the person transformation should be applied.
+        ignore_empty (bool): If True, empty values will be excluded from the output.
     """
     input_queue = Queue(maxsize=num_threads * 2)
     output_queue = Queue(maxsize=num_threads * 2)
@@ -273,7 +313,7 @@ def csv_to_json_threads(input_file,
         for _ in range(num_threads):
             t = threading.Thread(
                 target=worker,
-                args=(input_queue, output_queue, headers, parse_dates, person_transform_columns)
+                args=(input_queue, output_queue, headers, parse_dates, person_transform_columns, ignore_empty)
             )
             t.start()
             workers.append(t)
@@ -332,6 +372,12 @@ def main():
                             "with the entire last name, and the result will be in uppercase. "
                             "For example, 'Karl Humphrey' becomes 'KHUMPHREY'."
                         ))
+    parser.add_argument('--ignore-empty', action='store_true',
+                        help=(
+                            "If set, empty values will be excluded from the output. "
+                            "For objects and arrays, if all nested values are empty, "
+                            "the entire structure is excluded."
+                        ))
 
     args = parser.parse_args()
 
@@ -346,7 +392,8 @@ def main():
         chunk_size=args.chunk_size,
         enc=args.encoding,
         parse_dates=args.parse_dates,
-        person_transform_columns=person_transform_columns
+        person_transform_columns=person_transform_columns,
+        ignore_empty=args.ignore_empty
     )
 
 

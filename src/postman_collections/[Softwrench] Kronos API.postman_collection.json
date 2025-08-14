@@ -1,0 +1,271 @@
+{
+	"info": {
+		"_postman_id": "d70c155a-e813-481f-a7f1-fbfd14f0b597",
+		"name": "[Softwrench] Kronos API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11867613"
+	},
+	"item": [
+		{
+			"name": "Get Timesheet",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version = \"1.0\"?>\n<Kronos_WFC version = \"1.0\">\n    <Request\n        Object = \"System\"\n        Action = \"Logon\"\n        UserName = \"{{kronos_username}}\"\n        Password = \"{{kronos_pwd}}\"\n    />\n    <Request Action='Load'>\n        <Timesheet>\n            <Employee>\n                <PersonIdentity PersonNumber = \"21075864\"/>\n            </Employee>\n            <Period>\n                <TimeFramePeriod PeriodDateSpan = '11/02/2023 - 11/02/2023' />\n            </Period>\n        </Timesheet>\n    </Request>\n    <Request Object=\"System\" Action=\"Logoff\" />\n</Kronos_WFC>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{kronos_base_url}}/XmlService",
+					"host": [
+						"{{kronos_base_url}}"
+					],
+					"path": [
+						"XmlService"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Server Time",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version = \"1.0\"?>\n<Kronos_WFC version = \"1.0\">\n    <Request\n        Object = \"System\"\n        Action = \"Logon\"\n        UserName = \"{{kronos_username}}\"\n        Password = \"{{kronos_pwd}}\"\n    />\n    <Request Object = \"ServerTime\" Action = \"GetServerTime\"/>\n    <Request Object=\"System\" Action=\"Logoff\" />\n</Kronos_WFC>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{kronos_base_url}}/XmlService",
+					"host": [
+						"{{kronos_base_url}}"
+					],
+					"path": [
+						"XmlService"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Employee Information",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version = \"1.0\"?>\n<Kronos_WFC version = \"1.0\">\n    <Request\n        Object = \"System\"\n        Action = \"Logon\"\n        UserName = \"{{kronos_username}}\"\n        Password = \"{{kronos_pwd}}\"\n    />\n    <Request Action='Load'>\n        <WTKEmployee>\n            <Identity>\n                <PersonIdentity PersonNumber = \"21075864\"/>\n            </Identity>\n        </WTKEmployee>\n    </Request>\n    <Request Object=\"System\" Action=\"Logoff\" />\n</Kronos_WFC>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{kronos_base_url}}/XmlService",
+					"host": [
+						"{{kronos_base_url}}"
+					],
+					"path": [
+						"XmlService"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Person Identity Data",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version = \"1.0\"?>\n<Kronos_WFC version = \"1.0\">\n    <Request\n        Object = \"System\"\n        Action = \"Logon\"\n        UserName = \"{{kronos_username}}\"\n        Password = \"{{kronos_pwd}}\"\n    />\n    <Request Action='LoadIdentities'>\n        <PersonIdentity PersonNumber = \"21075864\"/>\n    </Request>\n    <Request Object=\"System\" Action=\"Logoff\" />\n</Kronos_WFC>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{kronos_base_url}}/XmlService",
+					"host": [
+						"{{kronos_base_url}}"
+					],
+					"path": [
+						"XmlService"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "HyperFindQuery",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version = \"1.0\"?>\n<Kronos_WFC version = \"1.0\">\n    <Request\n        Object = \"System\"\n        Action = \"Logon\"\n        UserName = \"{{kronos_username}}\"\n        Password = \"{{kronos_pwd}}\"\n    />\n    <Request Action='RunQuery'>\n        <HyperFindQuery\n            HyperFindQueryName = \"All Home\" \n            QueryIncludeWTKEmployeeFlag = \"false\"\n            QueryIncludePersonFlag = \"true\"\n            QueryIncludeUserFlag = \"true\"\n            QueryDateSpan = \"10/29/2023 - 11/07/2023\"\n            VisibilityCode = \"Public\"\n        >\n        </HyperFindQuery>\n    </Request>\n    <Request Object=\"System\" Action=\"Logoff\" />\n</Kronos_WFC>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{kronos_base_url}}/XmlService",
+					"host": [
+						"{{kronos_base_url}}"
+					],
+					"path": [
+						"XmlService"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add PayCode",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version = \"1.0\"?>\n<Kronos_WFC version = \"1.0\">\n    <Request\n        Object = \"System\"\n        Action = \"Logon\"\n        UserName = \"{{kronos_username}}\"\n        Password = \"{{kronos_pwd}}\"\n    />\n    <Request Action=\"AddOnly\" EchoData = \"true\">\n        <PayCodeEdit\n            StartTime = \"3:00PM\"\n            AmountInTimeOrCurrency = \"3.00\"\n            Date = \"09/30/2023\"\n            PayCodeName = \"Doubletime\"\n        >\n            <Employee>\n                <CurrentUser />\n            </Employee>\n        </PayCodeEdit>\n    </Request>\n    <Request Object=\"System\" Action=\"Logoff\" />\n</Kronos_WFC>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{kronos_base_url}}/XmlService",
+					"host": [
+						"{{kronos_base_url}}"
+					],
+					"path": [
+						"XmlService"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Punch",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version = \"1.0\"?>\n<Kronos_WFC version = \"1.0\">\n    <Request\n        Object = \"System\"\n        Action = \"Logon\"\n        UserName = \"{{kronos_username}}\"\n        Password = \"{{kronos_pwd}}\"\n    />\n    <Request Action=\"AddOnly\" EchoData = \"true\">\n        <Punch Time = \"9:00 AM\" Date = \"11/03/2023\" CommentText = \"Misc-General\">\n            <Notes>\n                <Note Text=\"SoftWrench2 WO Num: 30240\" />\n            </Notes>\n            <Employee>\n                <PersonIdentity PersonNumber = \"21075864\"/>\n            </Employee>\n        </Punch>\n        <Punch Time = \"5:00 PM\" Date = \"11/03/2023\" CommentText = \"Misc-General\">\n            <Notes>\n                <Note Text=\"SoftWrench2 WO Num: 30240\" />\n            </Notes>\n            <Employee>\n                <PersonIdentity PersonNumber = \"21075864\"/>\n            </Employee>\n        </Punch>\n    </Request>\n    <Request Object=\"System\" Action=\"Logoff\" />\n</Kronos_WFC>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{kronos_base_url}}/XmlService",
+					"host": [
+						"{{kronos_base_url}}"
+					],
+					"path": [
+						"XmlService"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List All Pay Codes",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version = \"1.0\"?>\n<Kronos_WFC version = \"1.0\">\n    <Request\n        Object = \"System\"\n        Action = \"Logon\"\n        UserName = \"{{kronos_username}}\"\n        Password = \"{{kronos_pwd}}\"\n    />\n    <Request Action=\"LoadAllPayCodes\">\n        <PayCode />\n    </Request>\n    <Request Object=\"System\" Action=\"Logoff\" />\n</Kronos_WFC>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{kronos_base_url}}/XmlService",
+					"host": [
+						"{{kronos_base_url}}"
+					],
+					"path": [
+						"XmlService"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Active Comments",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version = \"1.0\"?>\n<Kronos_WFC version = \"1.0\">\n    <Request\n        Object = \"System\"\n        Action = \"Logon\"\n        UserName = \"{{kronos_username}}\"\n        Password = \"{{kronos_pwd}}\"\n    />\n    <Request Action=\"LoadActiveComments\">\n        <Comment />\n    </Request>\n    <Request Object=\"System\" Action=\"Logoff\" />\n</Kronos_WFC>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{kronos_base_url}}/XmlService",
+					"host": [
+						"{{kronos_base_url}}"
+					],
+					"path": [
+						"XmlService"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
