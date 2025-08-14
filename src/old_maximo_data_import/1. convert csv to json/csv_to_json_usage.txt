@@ -1,1 +1,0 @@
-python3 csv_to_json.py /path/to/csv.csv /path/to/output.json --threads 4 --chunk-size 50000 --encoding utf-8
