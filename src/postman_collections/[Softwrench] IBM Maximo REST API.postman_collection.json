@@ -250,7 +250,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"recworktype\": \"Preventive\",\n    \"description\": \"Pump System Inspection\",\n    \"description_longdescription\": \"Routine inspection required for the pump system in zone 3 to ensure optimal performance and prevent potential failures.\",\n    \"priority\": 1,\n    \"status\": \"OPEN\",\n    \"wonum\": \"987654\",\n    \"sfid\": \"SF1234567890\",\n    \"reportedby\": \"JDOE\",\n    \"owner\": \"AMARTINEZ\",\n    \"location\": \"123-4567\",\n    \"vendor\": \"ABC Solutions Inc.\",\n    \"tier\": \"Critical\",\n    \"origination\": \"EXTERNAL\",\n    \"woadditionalresource\": [\n        {\n            \"sfid\": \"08pUn000001ABC1\",\n            \"personid\": \"JDOE\",\n            \"schedstart\": \"2025-02-15T08:00:00\",\n            \"schedfinish\": \"2025-02-15T10:00:00\",\n            \"sequence\": 1\n        },\n        {\n            \"sfid\": \"08pUn000001ABC2\",\n            \"personid\": \"AMARTINEZ\",\n            \"schedstart\": \"2025-02-15T10:15:00\",\n            \"schedfinish\": \"2025-02-15T12:15:00\",\n            \"sequence\": 2\n        }\n    ],\n    \"relatedrecord\": [\n        {\n            \"relatedreckey\": 123456,\n            \"relatedrecclass\": \"SR\",\n            \"relatedrecsiteid\": \"SITE\"\n        }\n    ],\n    \"jobtype\": \"PM\",\n    \"orgid\": \"ORG\",\n    \"siteid\": \"SITE\",\n    \"worktype\": \"CM\"\n}",
+							"raw": "{\n    \"orgid\": \"ORG\",\n    \"siteid\": \"SITE\",\n    \"location\": \"bsVTS1\",\n    \"status\": \"APPR\",\n    \"worktype\": \"CM\",\n    \"recworktype\": \"CM\",\n    \"isbillable\": 2,\n    \"reportdate\": \"2025-09-03T09:00:00Z\",\n    \"notifdate\": \"2025-09-03T10:00:00Z\",\n    \"description\": \"VT Springfield BESS - Inverter Offline - 9/3/2025\",\n    \"description_longdescription\": \"Inverter reported offline after storm.\",\n    \"reportedby\": \"MATT.MATUSKA\",\n    \"assetnum\": \"bsVTS1_plant\",\n    \"multiassetlocci\": [\n        {\n            \"assetnum\": \"pvROU1_plant\"\n        },\n        {\n            \"assetnum\": \"pvBRK1_plant\"\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -258,13 +258,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_maximo_url}}/os/customwodetail?lean=1",
+							"raw": "{{base_maximo_url}}/os/mxapiwodetail?lean=1",
 							"host": [
 								"{{base_maximo_url}}"
 							],
 							"path": [
 								"os",
-								"customwodetail"
+								"mxapiwodetail"
 							],
 							"query": [
 								{
@@ -1243,13 +1243,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_maximo_url}}/os/mxasset?lean=1",
+							"raw": "{{base_maximo_url}}/os/mxworkorder?lean=1",
 							"host": [
 								"{{base_maximo_url}}"
 							],
 							"path": [
 								"os",
-								"mxasset"
+								"mxworkorder"
 							],
 							"query": [
 								{
@@ -1747,7 +1747,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_maximo_url}}/os/MXAPICRAFTRATE?lean=1&oslc.where=contractnum=\"46187\"&oslc.select=*",
+							"raw": "{{base_maximo_url}}/os/MXAPICRAFTRATE?lean=1&oslc.where=contractnum=\"46187\" and craft=\"SOLAR_ELECTRICIAN_1\" and revisionnum=0&oslc.select=*",
 							"host": [
 								"{{base_maximo_url}}"
 							],
@@ -1762,50 +1762,11 @@
 								},
 								{
 									"key": "oslc.where",
-									"value": "contractnum=\"46187\""
+									"value": "contractnum=\"46187\" and craft=\"SOLAR_ELECTRICIAN_1\" and revisionnum=0"
 								},
 								{
 									"key": "oslc.select",
 									"value": "*"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "New Request",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "maxauth",
-								"value": "{{maxauth}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "https://cleanleafmaxqa.softwrench2.com/maximo/oslc/os/MXAPICRAFTRATE?oslc.select=*&oslc.where=contractnum%3D%221011%22",
-							"protocol": "https",
-							"host": [
-								"cleanleafmaxqa",
-								"softwrench2",
-								"com"
-							],
-							"path": [
-								"maximo",
-								"oslc",
-								"os",
-								"MXAPICRAFTRATE"
-							],
-							"query": [
-								{
-									"key": "oslc.select",
-									"value": "*"
-								},
-								{
-									"key": "oslc.where",
-									"value": "contractnum%3D%221011%22"
 								}
 							]
 						}
@@ -1846,7 +1807,7 @@
 						"body": {
 							"mode": "file",
 							"file": {
-								"src": "/Users/rckmath/Downloads/47702_1.png"
+								"src": ""
 							}
 						},
 						"url": {
@@ -1900,6 +1861,108 @@
 								{
 									"key": "inlinedoc",
 									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MX API Mat Use Trans",
+			"item": [
+				{
+					"name": "1. Query work order",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_maximo_url}}/oslc/os/mxapiwodetail?lean=1&oslc.where=wonum=\"25-204435\"&oslc.select=workorderid",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"oslc",
+								"os",
+								"mxapiwodetail"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								},
+								{
+									"key": "oslc.where",
+									"value": "wonum=\"25-204435\""
+								},
+								{
+									"key": "oslc.select",
+									"value": "workorderid"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. Create material in work order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "maxauth",
+								"value": "{{maxauth}}",
+								"type": "text"
+							},
+							{
+								"key": "x-method-override",
+								"value": "PATCH",
+								"type": "text"
+							},
+							{
+								"key": "patchtype",
+								"value": "MERGE",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"wonum\": \"WORK_ORDER_NUMBER_HERE\",\n  \"matusetrans\": [\n    {\n      \"issuetype\": \"ISSUE\",\n      \"orgid\": \"ORG\",\n      \"tositeid\": \"SITE\",\n      \"assetnum\": \"\",\n      \"location\": \"LOCATION_HERE\",\n      \"actualdate\": \"2025-08-19T00:00:00\",\n      \"transdate\": \"2025-09-12T17:29:00\",\n      \"quantity\": \"-1\",\n      \"unitcost\": \"221.01\",\n      \"actualcost\": \"221.01\",\n      \"linecost\": \"-221.01\",\n      \"isbillable\": \"1\",\n      \"costtype\": \"Material\",\n      \"linetype\": \"MATERIAL\",\n      \"materialtype\": \"\",\n      \"origin\": \"MATERIAL\",\n      \"rectransactiontype\": \"PO\",\n      \"description\": \"TESTING MATERIAL\",\n      \"memo\": \"\"\n    }\n  ]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_maximo_url}}/oslc/os/mxapiwodetail/:workorderid?lean=1",
+							"host": [
+								"{{base_maximo_url}}"
+							],
+							"path": [
+								"oslc",
+								"os",
+								"mxapiwodetail",
+								":workorderid"
+							],
+							"query": [
+								{
+									"key": "lean",
+									"value": "1"
+								}
+							],
+							"variable": [
+								{
+									"key": "workorderid",
+									"value": "9796"
 								}
 							]
 						}
@@ -1983,6 +2046,7 @@
 			"script": {
 				"type": "text/javascript",
 				"packages": {},
+				"requests": {},
 				"exec": [
 					""
 				]
@@ -1993,6 +2057,7 @@
 			"script": {
 				"type": "text/javascript",
 				"packages": {},
+				"requests": {},
 				"exec": [
 					""
 				]
@@ -2002,13 +2067,11 @@
 	"variable": [
 		{
 			"key": "maxauth",
-			"value": "<<your_max_auth_here>>",
-			"type": "default"
+			"value": "<<your_max_auth_here>>"
 		},
 		{
 			"key": "base_maximo_url",
-			"value": "https://your_instance_name_here.softwrench2.com/maximo/oslc",
-			"type": "default"
+			"value": "https://your_instance_name_here.softwrench2.com/maximo/oslc"
 		}
 	]
 }
